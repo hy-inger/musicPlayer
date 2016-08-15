@@ -2,7 +2,7 @@ HTML5 音乐播放器
 -------------
 全局安装webpack,babel
 
-npm install webpack babel babel-core babel-preset-es2015 -g
+npm install webpack webpack-dev-server babel babel-core babel-preset-es2015 -g
 
 
 node install 安装package.json中的依赖
