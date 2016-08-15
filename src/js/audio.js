@@ -131,6 +131,7 @@ class MyAudio {
             this.index = parseInt(Math.random()*this.musicList.length,10);
         }
         this.load(this.musicList[this.index])
+        return this;
     }
 
 }
