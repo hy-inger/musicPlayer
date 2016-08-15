@@ -1,5 +1,12 @@
 HTML5 音乐播放器
 -------------
+运行环境:
+    node v6.0+
+    webpack,babel
+安装n
+npm install -g n  安装node版本管理工具 (n相关操作可谷歌)
+n latest   安装最新版node
+
 全局安装webpack,babel
 
 npm install webpack webpack-dev-server babel babel-core babel-preset-es2015 -g
