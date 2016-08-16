@@ -50,20 +50,7 @@
 	__webpack_require__(1);
 	__webpack_require__(3);
 
-	// fetch("./src//music.json").then(res=>{
-	//     if (res.ok) {
-	//         return res.json();
-	//     }
-	// }).then(data=>{
-	//     data = data.map(el=>el.data.songList[0])
-	//     player.addMusic(data)
-	//     console.log(data);
-	// },error=>{
-	//     console.log(error);
-	// });
-
-
-	fetch("http://localhost:4000/search?query=薛之谦", {
+	fetch("http://localhost:4000/search?query=陈奕迅", {
 	    mod: "cors"
 	}).then(function (res) {
 	    return res.json();
@@ -71,6 +58,7 @@
 	    console.log(data.data.songList);
 	    var musicList = data.data.songList;
 	    window.player = new MyAudio(document.getElementById("player"), musicList);
+	    player.next();
 	});
 
 /***/ },
@@ -472,18 +460,10 @@
 	        //     songPicSmall,songPicBig,songPicRadio,lrcLink,time,linkCode,
 	        //     songLink,showLink,format,rate,size,relateStatus,resourceType} = obj;
 	        this.info = obj;
-	        this.dom = dom;
+	        this.dom = dom; // 可放入代表歌曲的dom,
 	    }
 
 	    _createClass(Music, [{
-	        key: "preplay",
-	        value: function preplay() {
-	            if (this.dom) {
-	                this.dom.addClass("active");
-	            }
-	            return this.info.songLink;
-	        }
-	    }, {
 	        key: "getInfo",
 	        value: function getInfo() {
 	            return this.info;
@@ -500,26 +480,26 @@
 
 	        _classCallCheck(this, MyAudio);
 
-	        this.audio = ele;
+	        this.audio = ele; // 元素dom
 	        this.musicList = musicList.map(function (ele) {
 	            return new Music(ele);
-	        });
-	        this.index = 0;
+	        }); // 歌曲列表
+	        this.index = 0; // 当前歌曲索引
 	        var defaultCfg = {
-	            ended: function ended() {},
-	            play: function play() {},
-	            playType: "order"
+	            ended: function ended() {}, // 结束回调
+	            play: function play() {}, // 播放时候回调
+	            playType: "order" // 播放类型,
 	        };
+	        // 配置,播放回调,播放结束回调
 	        this.cfg = Object.assign(defaultCfg, cfg);
 	        this.audio.addEventListener("ended", this.cfg.ended);
 	        this.audio.addEventListener("play", this.cfg.play);
 	    }
-	    // static search(query){
-	    //     const baseUrl = "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.catalogSug?query=";
-	    //     var img = new Image();
-	    //     img.src = baseUrl+encodeURIComponent(query);
-	    //     return img;
-	    // }
+	    /**
+	     * 添加歌曲
+	     * @method addMusic
+	     * @param  {Music||List} music 歌曲或者歌曲列表
+	     */
 
 
 	    _createClass(MyAudio, [{
@@ -536,6 +516,8 @@
 	            }
 	            return this;
 	        }
+	        // 删除歌曲
+
 	    }, {
 	        key: "removeMusic",
 	        value: function removeMusic(music) {
@@ -544,6 +526,8 @@
 	            }
 	            return this;
 	        }
+	        // 获取当前播放器相关信息
+
 	    }, {
 	        key: "getInfo",
 	        value: function getInfo() {
@@ -557,18 +541,24 @@
 	                duration: this.audio.duration
 	            };
 	        }
+	        // 播放
+
 	    }, {
 	        key: "play",
 	        value: function play() {
 	            this.audio.play();
 	            return this;
 	        }
+	        // 暂停
+
 	    }, {
 	        key: "pause",
 	        value: function pause() {
 	            this.audio.pause();
 	            return this;
 	        }
+	        // 增音量
+
 	    }, {
 	        key: "increaseVolume",
 	        value: function increaseVolume(val) {
@@ -582,6 +572,8 @@
 	            this.audio.volume = volume / 100;
 	            return this;
 	        }
+	        // 减少音量
+
 	    }, {
 	        key: "decreaseVolume",
 	        value: function decreaseVolume(val) {
@@ -595,42 +587,57 @@
 	            this.audio.volume = volume / 100;
 	            return this;
 	        }
+	        // 设置当前播放时间
+
 	    }, {
 	        key: "setCurrentTime",
 	        value: function setCurrentTime(val) {
 	            this.audio.currentTime = val;
 	            return this;
 	        }
+	        // 加载并博凡引用
+
 	    }, {
 	        key: "load",
 	        value: function load(music) {
+	            var _this = this;
+
 	            if (!this.musicList.includes(music)) {
 	                this.musicList.push(music);
 	            }
-	            this.audio.src = music.preplay();;
-	            this.play();
+	            // 通过后台代理并将二进制转成blob播放
+	            fetch("http://localhost:4000/proxy?url=" + music.info.showLink).then(function (res) {
+	                console.log(res);
+	                return res.blob();
+	            }).then(function (data) {
+	                _this.audio.src = window.URL.createObjectURL(data);
+	                _this.play();
+	            });
 	            return this;
 	        }
+	        // 设置单曲循环
+
 	    }, {
 	        key: "loop",
 	        value: function loop(isLoop) {
 	            this.audio.loop = isLoop;
 	            return this;
 	        }
+	        // 下一手音乐
+
 	    }, {
 	        key: "next",
 	        value: function next() {
 	            if (this.cfg.playType === "order") {
 	                this.index++;
 	                if (this.index >= this.musicList.length) {
-	                    console.log(this.index);
 	                    this.index = 0;
 	                }
 	            } else {
 	                this.index = parseInt(Math.random() * this.musicList.length, 10);
 	            }
 	            this.load(this.musicList[this.index]);
-	            console.log(this.index);
+	            return this;
 	        }
 	    }]);
 
