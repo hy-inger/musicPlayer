@@ -104,9 +104,8 @@ class MyAudio {
             this.musicList.push(music)
         }
         // 通过后台代理并将二进制转成blob播放
-        fetch("http://localhost:4000/proxy?url="+music.info.showLink)
+        fetch("http://localhost:4000/proxy?url="+music.info.songLink)
         .then((res)=>{
-            console.log(res);
             return res.blob()
         })
         .then((data)=>{
@@ -130,7 +129,24 @@ class MyAudio {
         }else {
             this.index = parseInt(Math.random()*this.musicList.length,10);
         }
+        var music = this.musicList[this.index];
         this.load(this.musicList[this.index])
+        console.log(music.info.albumName);
+        return this;
+    }
+    // 上一手音乐
+    prev(){
+        if (this.cfg.playType === "order") {
+            this.index--;
+            if (this.index < 0) {
+                this.index = this.musicList.length -1;
+            }
+        }else {
+            this.index = parseInt(Math.random()*this.musicList.length,10);
+        }
+        var music = this.musicList[this.index];
+        this.load(this.musicList[this.index])
+        console.log(music.info.albumName);
         return this;
     }
 

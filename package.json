@@ -1,61 +1,63 @@
 {
-    "name": "musicplayer",
-    "version": "1.0.0",
-    "description": "html5音乐播放器",
-    "main": "index.js",
-    "scripts": {
-        "start": "webpack-dev-server --inline --hot",
-        "build": "webpack --display-error-details",
-        "watch": "webpack --progress --colors --watch"
+  "name": "musicplayer",
+  "version": "1.0.0",
+  "description": "html5音乐播放器",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --inline --hot",
+    "build": "webpack --display-error-details",
+    "watch": "webpack --progress --colors --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.umlife.net:godzilla/musicPlayer.git"
+  },
+  "keywords": [
+    "html5",
+    "audio"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-builtin-extend": "^1.1.0",
+    "babel-preset-es2015": "^6.13.2",
+    "cors": "^2.7.1",
+    "css-loader": "^0.23.1",
+    "expose-loader": "^0.7.1",
+    "express": "^4.14.0",
+    "node-sass": "^3.8.0",
+    "sass-loader": "^4.0.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-hot-middleware": "^2.12.2",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1"
+  },
+  "eslintConfig": {
+    "ecmaFeatures": {
+      "modules": true,
+      "spread": true,
+      "restParams": true
     },
-    "repository": {
-        "type": "git",
-        "url": "git@git.umlife.net:godzilla/musicPlayer.git"
+    "env": {
+      "es6": true,
+      "browser": true,
+      "node": true
     },
-    "keywords": [
-        "html5",
-        "audio"
-    ],
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "babel": "^6.5.2",
-        "babel-cli": "^6.11.4",
-        "babel-core": "^6.13.2",
-        "babel-loader": "^6.2.4",
-        "babel-plugin-transform-builtin-extend": "^1.1.0",
-        "babel-preset-es2015": "^6.13.2",
-        "cors": "^2.7.1",
-        "css-loader": "^0.23.1",
-        "expose-loader": "^0.7.1",
-        "express": "^4.14.0",
-        "node-sass": "^3.8.0",
-        "sass-loader": "^4.0.0",
-        "style-loader": "^0.13.1",
-        "webpack": "^1.13.1",
-        "webpack-dev-server": "^1.14.1",
-        "webpack-hot-middleware": "^2.12.2",
-        "request": "^2.74.0",
-        "request-promise": "^4.1.1"
-    },
-    "eslintConfig": {
-        "ecmaFeatures": {
-            "modules": true,
-            "spread": true,
-            "restParams": true
-        },
-        "env": {
-            "es6": true,
-            "browser": true,
-            "node": true
-        },
-        "parserOptions": {
-            "sourceType": "module"
-        }
-    },
-    "dependencies": {
-        "request": "^2.74.0",
-        "request-promise": "^4.1.1",
-        "cors": "^2.7.1"
+    "parserOptions": {
+      "sourceType": "module"
     }
+  },
+  "dependencies": {
+    "core-js": "^2.4.1",
+    "cors": "^2.7.1",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1",
+    "webpack-dev-server": "^1.14.1"
+  }
 }

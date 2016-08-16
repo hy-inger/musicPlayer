@@ -20,6 +20,7 @@ app.use(cors())
 app.get('/search', function(req, res) {
     var qs = {};
     Object.assign(qs,Qs);
+    qs.format = Qs.format
     qs.method = "baidu.ting.search.catalogSug";
     qs.query = req.query.query;
     rp({
@@ -33,7 +34,7 @@ app.get('/search', function(req, res) {
     .then(function(song){
         // 将得到的歌曲id放进一个数组中
         var musArr = [];
-        song.forEach(mus=>{
+        song.forEach(function(mus){
             musArr.push(mus.songid);
         });
         // 获取歌曲详细数据并返回
@@ -44,6 +45,7 @@ app.get('/search', function(req, res) {
             }
         })
         .then(function (data) {
+            console.log("----------get music ---------");
             res.send(JSON.parse(data))
         })
     })
@@ -55,6 +57,7 @@ app.get('/search', function(req, res) {
 // 获取歌曲实际数据后返回给前端
 app.get('/proxy', function(req, res) {
     var uri = req.query.url;
+    console.log("get from >>>>>  ",uri);
     request.get(uri,{encoding:null},function(err,response,body){
         res.send(body)
     })
@@ -64,4 +67,4 @@ app.get('/', function(req, res) {
 });
 
 
-app.listen(4000,()=>{console.log("------------server start---------------");})
+app.listen(4000,function(){console.log("------------server start---------------");})

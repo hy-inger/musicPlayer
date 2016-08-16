@@ -1,9 +1,8 @@
 class MyQueryDom extends Array{
     constructor(ele) {
         super();
-        console.log(ele);
         if (ele.length === 1) {
-            this.context = this[0] = ele[0];
+            this[0] = ele[0];
         }else {
             ele.forEach((e,i)=>{
                 this[i] = e;
@@ -37,7 +36,7 @@ class MyQueryDom extends Array{
         return this;
     }
     data(string, val) {
-        if (typeof value === 'undefined') {
+        if (typeof val === 'undefined') {
             var result = [];
             this.forEach(ele => {
                 result.push(ele.dataset[string])
@@ -251,15 +250,14 @@ class MyQueryDom extends Array{
 }
 function MyQuery(ele){
     var dom ;
-    console.log(ele);
     if (ele.nodeType) {
-        dom = ele
+        dom = [ele]
     }else if(typeof ele === 'string'){
-        dom = document.querySelectorAll(ele);
+        dom = Array.from(document.querySelectorAll(ele));
     }else {
+        console.error("没有匹配到");
         return "";
     }
-    // dom = dom.map(el=>new MyQueryDom(el));
     return new MyQueryDom(dom);
 }
 

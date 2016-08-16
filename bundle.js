@@ -55,10 +55,29 @@
 	}).then(function (res) {
 	    return res.json();
 	}).then(function (data) {
-	    console.log(data.data.songList);
 	    var musicList = data.data.songList;
 	    window.player = new MyAudio(document.getElementById("player"), musicList);
 	    player.next();
+	});
+
+	$q("button[name='play']").on('click', function (event) {
+	    event.preventDefault();
+	    var status = $q(this).data("status");
+	    if (status === 'play') {
+	        window.player.pause();
+	        $q(this).data("status", "paused");
+	    } else {
+	        window.player.play();
+	        $q(this).data("status", "play");
+	    }
+	});
+	$q("button[changebtn]").on('click', function (event) {
+	    var type = $q(this).attr("action-type");
+	    if (type === 'next') {
+	        window.player.next();
+	    } else {
+	        window.player.prev();
+	    }
 	});
 
 /***/ },
@@ -119,9 +138,8 @@
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MyQueryDom).call(this));
 
-	        console.log(ele);
 	        if (ele.length === 1) {
-	            _this.context = _this[0] = ele[0];
+	            _this[0] = ele[0];
 	        } else {
 	            ele.forEach(function (e, i) {
 	                _this[i] = e;
@@ -165,7 +183,7 @@
 	    }, {
 	        key: 'data',
 	        value: function data(string, val) {
-	            if (typeof value === 'undefined') {
+	            if (typeof val === 'undefined') {
 	                var result = [];
 	                this.forEach(function (ele) {
 	                    result.push(ele.dataset[string]);
@@ -419,15 +437,14 @@
 
 	function MyQuery(ele) {
 	    var dom;
-	    console.log(ele);
 	    if (ele.nodeType) {
-	        dom = ele;
+	        dom = [ele];
 	    } else if (typeof ele === 'string') {
-	        dom = document.querySelectorAll(ele);
+	        dom = Array.from(document.querySelectorAll(ele));
 	    } else {
+	        console.error("没有匹配到");
 	        return "";
 	    }
-	    // dom = dom.map(el=>new MyQueryDom(el));
 	    return new MyQueryDom(dom);
 	}
 
@@ -606,8 +623,7 @@
 	                this.musicList.push(music);
 	            }
 	            // 通过后台代理并将二进制转成blob播放
-	            fetch("http://localhost:4000/proxy?url=" + music.info.showLink).then(function (res) {
-	                console.log(res);
+	            fetch("http://localhost:4000/proxy?url=" + music.info.songLink).then(function (res) {
 	                return res.blob();
 	            }).then(function (data) {
 	                _this.audio.src = window.URL.createObjectURL(data);
@@ -636,7 +652,27 @@
 	            } else {
 	                this.index = parseInt(Math.random() * this.musicList.length, 10);
 	            }
+	            var music = this.musicList[this.index];
 	            this.load(this.musicList[this.index]);
+	            console.log(music.info.albumName);
+	            return this;
+	        }
+	        // 上一手音乐
+
+	    }, {
+	        key: "prev",
+	        value: function prev() {
+	            if (this.cfg.playType === "order") {
+	                this.index--;
+	                if (this.index < 0) {
+	                    this.index = this.musicList.length - 1;
+	                }
+	            } else {
+	                this.index = parseInt(Math.random() * this.musicList.length, 10);
+	            }
+	            var music = this.musicList[this.index];
+	            this.load(this.musicList[this.index]);
+	            console.log(music.info.albumName);
 	            return this;
 	        }
 	    }]);
