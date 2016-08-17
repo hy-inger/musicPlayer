@@ -3,17 +3,22 @@
     <head>
         <meta charset="utf-8">
         <title></title>
-    </head>
-    <body>
+        <link rel="stylesheet" type="text/css" href="/build/main.css"/>
+        <!--使用该方法加载dev-server模块不会自动生成json文件-->
+        <script src="http://localhost:8081/webpack-dev-server.js"></script>
+        <!--sublime text 3 livereload-->
+         <script src="http://localhost:35729/livereload.js"></script>   
+    </head> 
+    <body>  
         <main class='player-container'>
-            <section class="player-content">
-                <div class="search">
+            <section class="player-content"> 
+                <div class="search"> 
                     <input id="search-input" type="search" name="name" placeholder="输入歌曲名">
                     <button id="search-btn" type="button" name="button">搜索</button>
                 </div>
                 <ul class="search-list unstyle">
 
-                </ul>
+                </ul> 
             </section>
             <!-- 控制器 -->
             <div class="player-control-bar">
@@ -21,9 +26,9 @@
                 <button type="button" name="play" data-status='play'>play</button>
                 <button type="button" name="next" changebtn action-type="next">next</button>
                 <input type="range" name="progress" value="" >
-                <audio id="player" controls></audio>
+                <audio id="player" controls></audio>test
             </div>
         </main>
-        <script type="text/javascript" src="bundle.js"></script>
+        <script type="text/javascript" src="main.js"></script>
     </body>
 </html>

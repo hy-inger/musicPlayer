@@ -1,8 +1,8 @@
 // import MyAudio from "./js/audio.js";
 require("expose?$q!./js/query.js");
 require("expose?MyAudio!./js/audio.js");
-require("./sass/style.scss");
-
+require("./sass/style.scss");  
+ 
 fetch("http://localhost:4000/search?query=陈奕迅",{
     mod:"cors"
 }).then(res=>res.json()).then(data=>{
