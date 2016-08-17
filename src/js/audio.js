@@ -102,6 +102,7 @@ class MyAudio {
     load(music){
         if (!this.musicList.includes(music)) {
             this.musicList.push(music)
+            this.index = this.musicList.length - 1;
         }
         // 通过后台代理并将二进制转成blob播放
         fetch("http://localhost:4000/proxy?url="+music.info.songLink)
@@ -153,4 +154,4 @@ class MyAudio {
 }
 
 
-module.exports = MyAudio;
+module.exports = {MyAudio:MyAudio,Music:Music};

@@ -9,6 +9,11 @@ class MyQueryDom extends Array{
             })
         }
     }
+    static parseHTML(html){
+        var el = document.createElement('div');
+          el.innerHTML = html;
+          return el.children;
+    }
     _result(result) {
         if (result.length === 1) {
             return result[0];
@@ -175,7 +180,7 @@ class MyQueryDom extends Array{
         return this._result(result);
     }
     html(string) {
-        if (typeof value === 'undefined') {
+        if (typeof string === 'undefined') {
             var result = [];
             this.forEach(ele => {
                 result.push(ele.innerHTML)
@@ -243,9 +248,6 @@ class MyQueryDom extends Array{
             ele.addEventListener(even,fnc)
         });
         return this;
-    }
-    toString(){
-
     }
 }
 function MyQuery(ele){
