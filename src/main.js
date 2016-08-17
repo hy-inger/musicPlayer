@@ -1,7 +1,7 @@
 // import MyAudio from "./js/audio.js";
 require("expose?$q!./js/query.js");
 require("expose?MyAudio!./js/audio.js");
-
+require("./sass/style.scss");
 
 fetch("http://localhost:4000/search?query=陈奕迅",{
     mod:"cors"
@@ -29,4 +29,12 @@ $q("button[changebtn]").on('click', function(event) {
     }else {
         window.player.prev();
     }
+});
+$q("#search-btn").on('click', function(event) {
+    var val = $q("#search-input").val();
+    fetch("http://localhost:4000/search?query="+val,{
+        mod:"cors"
+    }).then(res=>res.json()).then(data=>{
+        console.log(data.data.songList);
+    });
 });
