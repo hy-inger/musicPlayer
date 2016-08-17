@@ -3,6 +3,11 @@
     <head>
         <meta charset="utf-8">
         <title></title>
+        <link rel="stylesheet" type="text/css" href="/build/main.css"/>
+        <!--使用该方法加载dev-server模块不会自动生成json文件-->
+        <script src="http://localhost:8081/webpack-dev-server.js"></script>
+        <!--sublime text 3 livereload-->
+         <!-- <script src="http://localhost:35729/livereload.js"></script> -->
     </head>
     <body>
         <main class='player-container'>
@@ -22,7 +27,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
             </section>
@@ -32,9 +37,9 @@
                 <button type="button" name="play" data-status='play'>play</button>
                 <button type="button" name="next" changebtn action-type="next">next</button>
                 <input type="range" name="progress" value="" >
-                <audio id="player" controls></audio>
+                <audio id="player" controls></audio>test
             </div>
         </main>
-        <script type="text/javascript" src="bundle.js"></script>
+        <script type="text/javascript" src="./build/main.js"></script>
     </body>
 </html>
