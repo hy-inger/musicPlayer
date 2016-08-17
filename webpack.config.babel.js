@@ -5,7 +5,10 @@ import ExtractTextPlugin from "extract-text-webpack-plugin";//将css分离到独
 // const webpack = require("webpack");
 module.exports = {
     devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
-    entry: './src/main.js', // 主入口文件
+    entry: {
+        "main":'./src/main.js',
+        "lrc":'./src/js/lrc.js'
+    }, // 主入口文件
     output: {
         path: './build',
         filename: '[name].js?[hash]', // 主入口打包文件路径

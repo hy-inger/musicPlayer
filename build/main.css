@@ -45,6 +45,10 @@ a img {
 elements-of-type(html5-block) {
   display: block; }
 
+.clearfix {
+  overflow: hidden;
+  *zoom: 1; }
+
 .unstyle {
   margin: 0px;
   padding: 0px; }
@@ -53,3 +57,5 @@ elements-of-type(html5-block) {
 
 button {
   color: red; }
+
+/*lrc*/

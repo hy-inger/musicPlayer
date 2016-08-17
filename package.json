@@ -8,6 +8,7 @@
     "description":"上面webpack端口冲突,所以自定义端口,可自行修改.",
     "start": "webpack-dev-server --inline --hot",
     "build": "webpack --display-error-details",
+    "babel": "babel src/js -d es6",
     "watch": "webpack --progress --colors --watch"
   },
   "repository": {

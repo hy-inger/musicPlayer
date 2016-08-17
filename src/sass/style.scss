@@ -1,6 +1,10 @@
 @import "compass/reset";
 @import "compass/css3";
 @import "compass/utilities";
+
+.clearfix{
+    @include clearfix();
+}
 .unstyle {
     margin:0px;
     padding:0px;
@@ -11,3 +15,5 @@
 button{
     color:red;
 }
+
+/*lrc*/
