@@ -1,7 +1,14 @@
 @import "compass/reset";
 @import "compass/css3";
 @import "compass/utilities";
+@import "animate";
 
+html{
+    font-size: 625%;
+}
+body{
+    font-size: .14rem;
+}
 .clearfix{
     @include clearfix();
 }
@@ -12,8 +19,35 @@
         font-size: 10px;
     }
 } 
-button{
-    color:red;
-}
+
 
 /*lrc*/
+.lrc-container{
+    width: 3rem;
+    height: 1.45rem;
+    text-align: center;
+    overflow: hidden;
+    background: rgba(0,0,0,0.4);
+    position: relative;
+    .lrc-list{
+        @include animation-duration(1s);
+        @include animation-timing-function(ease);
+        @include animation-fill-mode(forwards);
+        position: absolute;
+        width: inherit;
+        .lyric{
+            padding:.1rem .2rem; 
+            color:#827373;
+        }
+        .active{
+            color:#fff;
+            font-size: .15rem;
+        }
+    }
+}
+
+@include keyframes(scrollUp){
+    100%{
+        transform:translateY(-.35rem);
+    }
+}

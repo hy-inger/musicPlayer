@@ -231,7 +231,7 @@ class MyQueryDom extends Array{
     siblings() {
         var result = [];
         this.forEach(ele => {
-            var sib = ele.parentNode.children.filter(chid => {
+            var sib = Array.from(ele.parentNode.children).filter(chid => {
                 return chid !== ele;
             });
             result.push(...sib);
@@ -241,6 +241,12 @@ class MyQueryDom extends Array{
     on(even,fnc){
         this.forEach(ele=>{
             ele.addEventListener(even,fnc)
+        });
+        return this;
+    }
+    unbind(even,fnc){
+        this.forEach(ele=>{
+            ele.removeEventListener(even,fnc)
         });
         return this;
     }
