@@ -9,10 +9,23 @@ class MyQueryDom extends Array{
             })
         }
     }
+    call constructor(ele) {
+        var dom ;
+        if (ele.nodeType) {
+            dom = [ele]
+        }else if(typeof ele === 'string'){
+            dom = Array.from(document.querySelectorAll(ele));
+        }else {
+            console.error("没有匹配到");
+            return "";
+        }
+        var result = new MyQueryDom(dom);
+        return result;
+    }
     static parseHTML(html){
         var el = document.createElement('div');
           el.innerHTML = html;
-          return el.children;
+          return el.children[0];
     }
     _result(result) {
         if (result.length === 1) {
@@ -33,6 +46,11 @@ class MyQueryDom extends Array{
             });
             return this;
         }
+    }
+    remove(){
+        this.forEach(ele => {
+            ele.remove();
+        });
     }
     removeAttr(string) {
         this.forEach(ele => {
@@ -131,6 +149,17 @@ class MyQueryDom extends Array{
             }
         });
         return this;
+    }
+    hasClass(className) {
+        var result = true;
+        this.every(ele=>{
+            var has = ele.classList.conotains(className);
+            if (!has) {
+                result = false;
+            }
+            return has;
+        });
+        return result;
     }
     toggleClass(className) {
         this.forEach(ele=>{
@@ -250,17 +279,21 @@ class MyQueryDom extends Array{
         return this;
     }
 }
-function MyQuery(ele){
-    var dom ;
-    if (ele.nodeType) {
-        dom = [ele]
-    }else if(typeof ele === 'string'){
-        dom = Array.from(document.querySelectorAll(ele));
-    }else {
-        console.error("没有匹配到");
-        return "";
-    }
-    return new MyQueryDom(dom);
-}
-
-module.exports = MyQuery;
+// function MyQuery(ele){
+//     var dom ;
+//     if (ele.nodeType) {
+//         dom = [ele]
+//     }else if(typeof ele === 'string'){
+//         dom = Array.from(document.querySelectorAll(ele));
+//     }else {
+//         console.error("没有匹配到");
+//         return "";
+//     }
+//     return new MyQueryDom(dom);
+// }
+// MyQuery.parseHTML = function(string){
+//     var el = document.createElement("div");
+//     el.innerHTML = string;
+//     return el.children[0];
+// }
+module.exports = MyQueryDom;

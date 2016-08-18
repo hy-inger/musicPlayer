@@ -56,3 +56,6 @@ elements-of-type(html5-block) {
 
 button {
   color: red; }
+
+.song-list .active {
+  color: red; }

@@ -24,7 +24,10 @@ class MyAudio {
         };
         // 配置,播放回调,播放结束回调
         this.cfg = Object.assign(defaultCfg,cfg);
-        this.audio.addEventListener("ended",this.cfg.ended);
+        this.audio.addEventListener("ended",()=>{
+            this.next();
+            this.cfg.ended();
+        });
         this.audio.addEventListener("play",this.cfg.play);
     }
     /**
@@ -103,7 +106,13 @@ class MyAudio {
         if (!this.musicList.includes(music)) {
             this.musicList.push(music)
             this.index = this.musicList.length - 1;
+        }else {
+            this.index = this.musicList.indexOf(music)
         }
+        this.musicList.forEach((mus)=>{
+            $q(mus.dom).removeClass("active");
+        })
+        $q(music.dom).addClass("active");
         // 通过后台代理并将二进制转成blob播放
         fetch("http://localhost:4000/proxy?url="+music.info.songLink)
         .then((res)=>{
