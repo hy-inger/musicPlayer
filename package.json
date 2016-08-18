@@ -4,7 +4,8 @@
   "description": "html5音乐播放器",
   "main": "index.js",
   "scripts": {
-    "server": "webpack-dev-server --inline --hot --host 127.0.0.1 --port 8081",
+    "server": "webpack-dev-server --inline --hot --host  127.0.0.1 --port 8081",
+    "dev-server": "webpack-dev-server --inline --config=webpack.dev.config.babel.js --hot --host  127.0.0.1 --port 8081",
     "description": "上面webpack端口冲突,所以自定义端口,可自行修改.",
     "start": "webpack-dev-server --inline --hot",
     "build": "webpack --display-error-details",
@@ -34,6 +35,7 @@
     "expose-loader": "^0.7.1",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "html-webpack-plugin": "^2.22.0",
     "node-sass": "^3.4.2",
     "postcss-loader": "^0.10.0",
     "request": "^2.74.0",

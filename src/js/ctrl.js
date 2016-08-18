@@ -1,5 +1,6 @@
 var {MyAudio,Music} = require("./audio.js");
 require("expose?$q!./query.js");
+// 创建一首音乐并且将音乐与其dom关联.
 function createMusicDom(music){
     var index = $q(".song-list li").length;
     var li = `<li><span>${index}</span><span>${music.songName}</span></li>`;
@@ -28,6 +29,7 @@ var Store = {
                 mod:"cors"
             }).then(res=>res.json()).then(data=>{
                 console.log(data.data.songList);
+                state.searchList = data.data.songList;
                 var songList = data.data.songList;
                 var tbody = "";
                 songList.forEach((music,index)=>{
@@ -36,9 +38,7 @@ var Store = {
                 $q(".search-list tbody").html(tbody);
                 $q(".search-list tbody tr").on('click', function(event) {
                     var index = $q(this).data("index");
-                    var mus = createMusicDom(songList[index]);
-                    $q(".song-list")[0].appendChild(mus.dom)
-                    window.player.load(mus);
+                    Dispatch("LOAD_FROM_SEARCHLIST",index);
                 });
             });
         },
@@ -54,6 +54,13 @@ var Store = {
         },
         PREV(state){
             state.player.prev();
+        },
+        // 从搜索列表中播放音乐
+        LOAD_FROM_SEARCHLIST(state,index){
+            var music = state.searchList[index];
+            music = createMusicDom(music);
+            $q(".song-list")[0].appendChild(music.dom)
+            state.player.load(music);
         }
     }
 }

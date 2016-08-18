@@ -1,10 +1,5 @@
-// import MyAudio from "./js/audio.js";
-// var {MyAudio,Music} = require("./js/audio.js");
-// require("expose?MyAudio!./js/audio.js");
-
 require("./sass/style.scss");
 var {Store,Dispatch} = require("./js/ctrl.js");
-
 window.player = Store.state.player;
 $q("button[name='play']").on('click', function(event) {
     event.preventDefault();

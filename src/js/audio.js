@@ -20,6 +20,7 @@ class MyAudio {
         const defaultCfg = {
             ended:function(){}, // 结束回调
             play:function(){}, // 播放时候回调
+            progress:function(){},
             playType :"order"  // 播放类型,
         };
         // 配置,播放回调,播放结束回调
@@ -29,6 +30,25 @@ class MyAudio {
             this.cfg.ended();
         });
         this.audio.addEventListener("play",this.cfg.play);
+        // this.audio.addEventListener("loadstart",(e)=>{
+        //     console.log("loadstart ---->",e.target.buffered);
+        // });
+        // this.audio.addEventListener("durationchange",(e)=>{
+        //     console.log("durationchange ---->",e.target.buffered.end(e.target.buffered.length -1));
+        // });
+        // this.audio.addEventListener("loadedmetadata",(e)=>{
+        //     console.log("loadedmetadata ---->",e.target.buffered.end(e.target.buffered.length -1));
+        // });
+        // this.audio.addEventListener("loadeddata",(e)=>{
+        //     console.log("loadeddata ---->",e.target.buffered.end(e.target.buffered.length -1));
+        // });
+        this.audio.addEventListener("progress",(e)=>{
+            this.cfg.progress(e);
+            console.log("progrss ---- >",e.target.buffered.end(0)/e.target.duration);
+        });
+        // this.audio.addEventListener("canplay",(e)=>{
+        //     console.log("canplay ---->",e.target.buffered.end(e.target.buffered.length -1));
+        // });
     }
     /**
      * 添加歌曲
@@ -114,14 +134,19 @@ class MyAudio {
         })
         $q(music.dom).addClass("active");
         // 通过后台代理并将二进制转成blob播放
-        fetch("http://localhost:4000/proxy?url="+music.info.songLink)
-        .then((res)=>{
-            return res.blob()
-        })
-        .then((data)=>{
-            this.audio.src = window.URL.createObjectURL(data);
-            this.play();
-        })
+        // fetch("http://localhost:4000/proxy?url="+music.info.songLink)
+        // .then((res)=>{
+        //     mid = new Date().getTime()
+        //     console.log("fetch mid get data",mid - start);
+        //     return res.blob()
+        // })
+        // .then((data)=>{
+        //     this.audio.src = window.URL.createObjectURL(data);
+        //     this.play();
+        //     console.log("fetch end -play",new Date().getTime() - mid);
+        // })
+        this.audio.src = music.info.songLink;
+        this.play();
         return this;
     }
     // 设置单曲循环

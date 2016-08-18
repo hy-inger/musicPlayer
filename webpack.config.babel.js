@@ -19,7 +19,7 @@ module.exports = {
         },
         {
             test:/\.scss$/,
-            loader:ExtractTextPlugin.extract("css!sass?includePaths[]=" + path.resolve(__dirname, "./node_modules/compass-mixins/lib")),
+            loader:ExtractTextPlugin.extract("css!sass?includePaths[]=" + path.resolve(__dirname, "./node_modules/compass-mixins/lib!postcss")),
         }
         /*{
             test: /\.scss$/,
@@ -28,7 +28,7 @@ module.exports = {
         }*/]
     },
     postcss: [
-    require('autoprefixer')//调用autoprefixer插件
+        require('autoprefixer')//调用autoprefixer插件
     ],
     plugins: [
         //允许错误不打断程序
