@@ -16,7 +16,7 @@ const Qs = {
     from:"webapp_music",
     calback:"",
 }
-app.use(cors())
+app.use(cors());
 app.get('/search', function(req, res) {
     var qs = {};
     Object.assign(qs,Qs);

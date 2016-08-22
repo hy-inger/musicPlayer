@@ -13,18 +13,146 @@
     display: block;
 }
 
-button{
-    color:red;
-    background: blue !important;
-}
 
 
 .song-list {
     .active {
-        color:red;
+        color:blue;
     }
 }
+
 #test {
     display: flex;
     border-radius: 1px;
+}
+
+.player-control-bar {
+    position: fixed;
+    bottom: 0;
+    background: #101B3B;
+    width: 100%;
+    height: 80px;
+    button {
+        width: 28px;
+        height: 23px;
+        background: transparent;
+        position: relative;
+        margin-top: 20px;
+        padding: 0;
+        display: inline-block;
+        outline: none;
+        border-color: white;
+        position: relative;
+        &:before, &:after {
+            content: '';
+            display: inline-block;
+            width: 0;
+            height: 0;
+            background: transparent;
+            border-style: solid;
+            position: absolute;
+        }
+        &.prev-btn {
+            margin-left: 10px;
+            border-width: 0 0 0 2px ;
+            border-left: 2px solid white;
+            &:before {
+                border-width: 14px 24.2px 14px 0;
+                border-color: transparent white transparent transparent ;
+                left: -1px;
+                top: -3px;
+            } 
+            &:after {
+                border-width: 10px 17.3px 10px 0;
+                border-color: transparent #101B3B transparent transparent; 
+                left: 4px;
+                top: 1px;
+            }   
+        }
+        &.next-btn {
+            border-width: 0 2px 0 0;
+            border-right: 2px solid white;
+            &:before {
+                border-width: 14px 0 14px 24.2px;
+                border-color: transparent  transparent transparent white;
+                left: 3px;
+                top: -3px;
+            } 
+            &:after {
+                border-width: 10px 0 10px 17.3px;
+                border-color: transparent transparent transparent #101B3B; 
+                left: 5px;
+                top: 1px; 
+            }   
+        } 
+        &.pause-btn, &.play-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 17.5px;
+            border: 2px solid white;
+            position: relative;
+        } 
+
+        &.pause-btn:before {
+            width: 5px;
+            height: 16px;
+            border-width: 0 2px 0 2px;
+            border-color: white;
+            left: 11px;
+            top: 7px;
+        }
+        &.pause-btn:after {
+            left: 10000px;
+        }
+
+        &.play-btn:before {
+            border-width: 10px 0 10px 17.3px;;
+            border-color: transparent transparent transparent white;
+            left: 10px;
+            top: 5px;
+        } 
+
+        &.play-btn:after {
+            border-style: solid;
+            border-width: 7px 0 7px 12.1px;
+            border-color: transparent transparent transparent #101B3B;
+            left: 12px;
+            top: 8px;
+        }
+    }
+
+    .timeline {
+        /*removes default webkit styles*/
+        -webkit-appearance: none;
+        
+        /*fix for FF unable to apply focus style bug */
+        border: 1px solid white;
+        
+        /*required for proper track sizing in FF*/
+        width: 50%;
+    }
+    .timeline::-webkit-slider-runnable-track {
+        width: 50%;
+        height: 5px;
+        background: #ddd;
+        border: none;
+        border-radius: 5px;
+    }
+    .timeline::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border: none;
+        height: 5px;
+        width: 5px;
+        border-radius: 50%;
+        border:1px solid #000;
+        background: #00f;
+        margin-top: -4px;
+    }
+    .timeline:focus {
+        outline: none;
+    }
+    .timeline:focus::-webkit-slider-runnable-track {
+        background: #ccc;
+    }        
+    
 }
