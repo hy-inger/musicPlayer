@@ -1,5 +1,13 @@
+
+/**
+ * 主要用来对播放器和音乐的控制
+ * 通过调用Dispatch(action)来控制播放器进行相应的操作
+ * 不允许直接对播放器对象进行操作
+ */
+
 var {MyAudio,Music} = require("./audio.js");
 require("expose?$q!./query.js");
+console.log("hell dddd o");
 // 创建一首音乐并且将音乐与其dom关联.
 function createMusicDom(music){
     var index = $q(".song-list li").length;
@@ -13,24 +21,29 @@ function createMusicDom(music){
     return mus;
 }
 var Store = {
+    // 状态,存放播放器和搜索列表
     state : {
         player:new MyAudio(document.getElementById("player")),
         searchList:[]
     },
+    // 相应的操作事件
     mou : {
+        // 播放
         PLAY(state){
             state.player.play();
         },
+        // 暂停
         PAUSE(state){
             state.player.pause();
         },
+        // 搜索
         SEARCH(state,query){
             fetch("http://localhost:4000/search?query="+query,{
                 mod:"cors"
             }).then(res=>res.json()).then(data=>{
-                console.log(data.data.songList);
-                state.searchList = data.data.songList;
                 var songList = data.data.songList;
+                console.log("songList",songList);
+                Dispatch("REFRESH_SEARCH_LIST",songList);
                 var tbody = "";
                 songList.forEach((music,index)=>{
                     tbody += `<tr data-index="${index}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${Math.floor(music.time/60)}:${Math.floor(music.time%60)}</td></tr>`;
@@ -42,6 +55,11 @@ var Store = {
                 });
             });
         },
+        // 刷新搜索列表,即将搜索的歌曲重新放入列表当中
+        REFRESH_SEARCH_LIST(state,search_list){
+            state.searchList = search_list;
+        },
+        // 播放/暂停切换
         CHANGE_STATE(state){
             if (state.player.audio.paused) {
                 state.player.play();
@@ -49,9 +67,11 @@ var Store = {
                 state.player.pause();
             }
         },
+        // 下一首歌曲
         NEXT(state){
             state.player.next();
         },
+        // 上一首歌曲
         PREV(state){
             state.player.prev();
         },
@@ -61,14 +81,38 @@ var Store = {
             music = createMusicDom(music);
             $q(".song-list")[0].appendChild(music.dom)
             state.player.load(music);
+        },
+        // 加大音量,基数为10
+        INCREASE_VOLUME(state){
+            state.player.changeVolume('increase');
+        },
+        // 减少音量,基数为10
+        DECREASE_VOLUME(state){
+            state.player.changeVolume('decrease');
+        },
+        // 改变音量音量
+        CHANGE_VOLUME(state,val){
+            console.log(val);
+            state.player.changeVolume(val);
+        },
+        // 播放进度,0-100整数,代表百分比
+        CHANGE_CURRENT_TIME(val){
+            state.player.setCurrentTime(val);
         }
     }
 }
-
+/**
+ * 自执行函数,返回一个方法
+ * @type {RegExp}
+ */
 var Dispatch = (function(store){
+    /**
+     * 执行action操作,arg为参数
+     */
     return function(action,...arg){
         console.log("ACTION-------->>>",action);
-        return store.mou[action](store.state,arg);
+        // 调用store中mou对应的action
+        return store.mou[action](store.state,...arg);
     }
 })(Store);
 module.exports = {Store,Dispatch};

@@ -16,7 +16,9 @@ const Qs = {
     from:"webapp_music",
     calback:"",
 }
-app.use(cors())
+// 设置允许跨域
+app.use(cors());
+// 搜索接口,用于搜索歌词,调用百度音乐api
 app.get('/search', function(req, res) {
     var qs = {};
     Object.assign(qs,Qs);
@@ -31,6 +33,7 @@ app.get('/search', function(req, res) {
         var song = JSON.parse(data).song;
         return song;
     })
+    // 将得到的歌曲列表进行歌曲详情查询,并放入数组,返回最终歌曲信息
     .then(function(song){
         // 将得到的歌曲id放进一个数组中
         var musArr = [];
@@ -57,10 +60,7 @@ app.get('/search', function(req, res) {
 // 获取歌曲实际数据后返回给前端
 app.get('/proxy', function(req, res) {
     var uri = req.query.url;
-    console.log("get from >>>>>  ",uri);
-    request.get(uri,{encoding:null},function(err,response,body){
-        res.send(body)
-    })
+    req.pipe(request(uri)).pipe(res)
 });
 app.get('/', function(req, res) {
   res.send('hello world');

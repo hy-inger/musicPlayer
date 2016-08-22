@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title></title>
         <meta name="referrer" content="never">
-        <!-- <link rel="stylesheet" type="text/css" href="/build/main.css"/> -->
+        <link rel="stylesheet" type="text/css" href="/build/main.css"/>
         <!--使用该方法加载dev-server模块不会自动生成json文件-->
         <!-- <script src="http://localhost/webpack-dev-server.js"></script> -->
         <!--sublime text 3 livereload-->
@@ -35,12 +35,12 @@
                 <button type="button" name="prev" changebtn action-type="prev">prev</button>
                 <button type="button" name="play" data-status='play'>play</button>
                 <button type="button" name="next" changebtn action-type="next">next</button>
-                <input type="range" name="progress" value="" >
-                <audio id="player" controls></audio>
+                <input type="range" name="progress" value="100" >
+                <audio id="player" controls src='http://yinyueshiting.baidu.com/data2/music/134369001/7319923154800128.mp3?xcode=7355b995cf3e983e37ff48ca31f559c2'></audio>
             </div>
             <ul class="song-list unstyle"></ul>
         </main>
-        <!-- <script type="text/javascript" src="./build/main.js"></script> -->
-        <script type="text/javascript" src="./main.js"></script>
+        <script type="text/javascript" src="./build/main.js"></script>
+        <!-- <script type="text/javascript" src="./main.js"></script> -->
     </body>
 </html>

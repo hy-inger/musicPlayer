@@ -13,6 +13,13 @@ class Music{
 }
 
 class MyAudio {
+    /**
+     * 构造器
+     * @param {element} audio的dom元素
+     * @param {array}  播放列表,可空
+     * @param {obj}  配置项
+     * @type {Array}
+     */
     constructor(ele,musicList=[],cfg = {}){
         this.audio = ele;  // 元素dom
         this.musicList = musicList.map(ele=>new Music(ele));  // 歌曲列表
@@ -20,13 +27,18 @@ class MyAudio {
         const defaultCfg = {
             ended:function(){}, // 结束回调
             play:function(){}, // 播放时候回调
-            progress:function(){},
+            progress:function(){}, // 缓冲时事件
             playType :"order"  // 播放类型,
         };
         // 配置,播放回调,播放结束回调
         this.cfg = Object.assign(defaultCfg,cfg);
         this.audio.addEventListener("ended",()=>{
-            this.next();
+            if (this.audio.loop) {
+                // 单曲播放则设置重新播放
+                this.audio.currentTime = 0;
+            }else {
+                this.next();
+            }
             this.cfg.ended();
         });
         this.audio.addEventListener("play",this.cfg.play);
@@ -42,10 +54,11 @@ class MyAudio {
         // this.audio.addEventListener("loadeddata",(e)=>{
         //     console.log("loadeddata ---->",e.target.buffered.end(e.target.buffered.length -1));
         // });
+        // 监听音乐源数据加载过程
         this.audio.addEventListener("progress",(e)=>{
             this.cfg.progress(e);
-            console.log("progrss ---- >",e.target.buffered.end(0)/e.target.duration);
         });
+        // 音乐可以播放事件
         // this.audio.addEventListener("canplay",(e)=>{
         //     console.log("canplay ---->",e.target.buffered.end(e.target.buffered.length -1));
         // });
@@ -63,21 +76,29 @@ class MyAudio {
         }
         return this;
     }
-    // 删除歌曲
+    /**
+     * removeMusic
+     * @method addMusic
+     * @param  {Music} 需要删除的歌曲
+     */
     removeMusic(music){
         if (this.musicList.includes(music)) {
             this.musicList.splice(this.musicList.indexOf(music),1);
         }
         return this;
     }
-    // 获取当前播放器相关信息
+    /**
+     * 获取当前播放器信息
+     */
     getInfo(){
         return {
+            music:this.musicList[this.index].info,
             currentSrc:this.audio.currentSrc,
             volume:this.audio.volume,
             currentTime:this.audio.currentTime,
             paused:this.audio.paused,
             ended:this.audio.ended,
+            loop:this.audio.loop,
             startTime:this.audio.startTime,
             duration:this.audio.duration
         }
@@ -92,36 +113,29 @@ class MyAudio {
         this.audio.pause();
         return this;
     }
-    // 增音量
-    increaseVolume(val){
+    // 改变音量,val为数值则设置为该数值,若为 increase代表音量增加10,否则减少10
+    changeVolume(val){
         var volume = this.audio.volume*100;
-        if (typeof val !== 'undefined') {
+        if (typeof val === 'number') {
             volume = val;
-        }else {
+        }else if(val === 'increase'){
             volume = volume + 10;
-        }
-        volume > 100 && (volume = 100);
-        this.audio.volume = volume/100
-        return this;
-    }
-    // 减少音量
-    decreaseVolume(val){
-        var volume = this.audio.volume*100;
-        if (typeof val !== 'undefined') {
-            volume = val;
         }else {
             volume = volume - 10;
         }
+        volume > 100 && (volume = 100);
         volume < 0 && (volume = 0);
         this.audio.volume = volume/100;
         return this;
     }
-    // 设置当前播放时间
+    // 设置当前播放时间,0-100,代表百分比
     setCurrentTime(val){
-        this.audio.currentTime = val;
+        this.audio.currentTime = this.audio.duration*val/100;
         return this;
     }
-    // 加载并博凡引用
+    /**
+     * 加载并播放音乐
+     */
     load(music){
         if (!this.musicList.includes(music)) {
             this.musicList.push(music)
@@ -136,14 +150,13 @@ class MyAudio {
         // 通过后台代理并将二进制转成blob播放
         // fetch("http://localhost:4000/proxy?url="+music.info.songLink)
         // .then((res)=>{
-        //     mid = new Date().getTime()
-        //     console.log("fetch mid get data",mid - start);
-        //     return res.blob()
+        //     var result = res.blob()
+        //     console.log(result);
+        //     return result
         // })
         // .then((data)=>{
         //     this.audio.src = window.URL.createObjectURL(data);
         //     this.play();
-        //     console.log("fetch end -play",new Date().getTime() - mid);
         // })
         this.audio.src = music.info.songLink;
         this.play();
@@ -154,7 +167,7 @@ class MyAudio {
         this.audio.loop = isLoop;
         return this;
     }
-    // 下一手音乐
+    // 下一首音乐
     next(){
         if (this.cfg.playType === "order") {
             this.index++;
@@ -169,7 +182,7 @@ class MyAudio {
         console.log(music.info.albumName);
         return this;
     }
-    // 上一手音乐
+    // 上一首音乐
     prev(){
         if (this.cfg.playType === "order") {
             this.index--;

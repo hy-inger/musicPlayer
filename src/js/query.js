@@ -9,6 +9,7 @@ class MyQueryDom extends Array{
             })
         }
     }
+    // call 关键词可以不需要通过new来创建实例
     call constructor(ele) {
         var dom ;
         if (ele.nodeType) {
@@ -22,17 +23,27 @@ class MyQueryDom extends Array{
         var result = new MyQueryDom(dom);
         return result;
     }
+    /**
+     * 解析html语句并返回构造出来的dom元素
+     */
     static parseHTML(html){
         var el = document.createElement('div');
           el.innerHTML = html;
           return el.children[0];
     }
+    /**
+     * 处理结果,如果结果为单元素数组则返回该元素,否则返回数组
+     */
     _result(result) {
         if (result.length === 1) {
             return result[0];
         }
         return result;
     }
+    /**
+     * 获取/设置属性
+     * value为空则获取
+     */
     attr(string, value) {
         if (typeof value === 'undefined') {
             var result = [];
@@ -47,17 +58,26 @@ class MyQueryDom extends Array{
             return this;
         }
     }
+    /**
+     * 删除元素
+     */
     remove(){
         this.forEach(ele => {
             ele.remove();
         });
     }
+    /**
+     * 删除属性
+     */
     removeAttr(string) {
         this.forEach(ele => {
             ele.removeAttribute(string);
         });
         return this;
     }
+    /**
+     * 设置/获取 data
+     */
     data(string, val) {
         if (typeof val === 'undefined') {
             var result = [];
@@ -72,12 +92,18 @@ class MyQueryDom extends Array{
             return this;
         }
     }
+    /**
+     * 删除data
+     */
     removeData(string) {
         this.forEach(ele => {
             this.dataset[string] = null;
         });
         return this;
     }
+    /**
+     * 设置/获取 value
+     */
     val(value) {
         if (typeof value === 'undefined') {
             var result = [];
@@ -92,6 +118,9 @@ class MyQueryDom extends Array{
             return this;
         }
     }
+    /**
+     * 设置dom元素的text
+     */
     text(value) {
         if (typeof value === 'undefined') {
             var result = [];
@@ -106,6 +135,9 @@ class MyQueryDom extends Array{
             return this;
         }
     }
+    /**
+     * 将dom插入到当前元素后面
+     */
     after(dom) {
         if (typeof dom === 'string') {
             this.forEach(ele => {
@@ -118,6 +150,9 @@ class MyQueryDom extends Array{
         }
         return this;
     }
+    /**
+     * 将dom插入到当前元素前面
+     */
     before(dom) {
         if (typeof dom === 'string') {
             this.forEach(ele => {
@@ -130,6 +165,9 @@ class MyQueryDom extends Array{
         }
         return this;
     }
+    /**
+     * 增加类
+     */
     addClass(className) {
         this.forEach(ele => {
             if (ele.classList) {
@@ -140,6 +178,9 @@ class MyQueryDom extends Array{
         });
         return this;
     }
+    /**
+     * 去掉某个类名
+     */
     removeClass(className) {
         this.forEach(ele => {
             if (ele.classList) {
@@ -150,6 +191,10 @@ class MyQueryDom extends Array{
         });
         return this;
     }
+    /**
+     * 判断是否存在某个类
+     * 当选择器下所有dom都存在返回true,否则返回false
+     */
     hasClass(className) {
         var result = true;
         this.every(ele=>{
@@ -161,6 +206,9 @@ class MyQueryDom extends Array{
         });
         return result;
     }
+    /**
+     * 切换类名
+     */
     toggleClass(className) {
         this.forEach(ele=>{
             if (el.classList) {
@@ -178,6 +226,9 @@ class MyQueryDom extends Array{
         });
         return this;
     }
+    /**
+     * 获取匹配str的子类
+     */
     children(str) {
         var children = [];
         // 子元素
@@ -201,6 +252,9 @@ class MyQueryDom extends Array{
         }
         return children;
     }
+    /**
+     * 寻找该dom元素下的某个匹配元素
+     */
     find(string) {
         var result = [];
         this.forEach(ele => {
@@ -208,6 +262,9 @@ class MyQueryDom extends Array{
         })
         return this._result(result);
     }
+    /**
+     * 设置dom下的html
+     */
     html(string) {
         if (typeof string === 'undefined') {
             var result = [];
@@ -222,6 +279,9 @@ class MyQueryDom extends Array{
             return this;
         }
     }
+    /**
+     * 设置css属性
+     */
     css(prop, val) {
         if (typeof prop === 'object') {
             this.forEach(ele => {
@@ -234,6 +294,9 @@ class MyQueryDom extends Array{
         }
         return this;
     }
+    /**
+     * 获取直接父节点
+     */
     parent(string) {
         var result = [];
         this.forEach(ele => {
@@ -241,6 +304,9 @@ class MyQueryDom extends Array{
         });
         return this._result(result);
     }
+    /**
+     * 获取最近的父辈节点
+     */
     closest(string){
         var result = [];
         this.forEach(ele=>{
@@ -248,6 +314,9 @@ class MyQueryDom extends Array{
         });
         return result;
     }
+    /**
+     * 上一个节点
+     */
     prev() {
         var result = [];
         this.forEach(ele => {
@@ -255,6 +324,9 @@ class MyQueryDom extends Array{
         });
         return this._result(result);
     }
+    /**
+     * 下一个节点
+     */
     next() {
         var result = [];
         this.forEach(ele => {
@@ -262,6 +334,9 @@ class MyQueryDom extends Array{
         });
         return this._result(result);
     }
+    /**
+     * 兄弟节点
+     */
     siblings() {
         var result = [];
         this.forEach(ele => {
@@ -272,6 +347,9 @@ class MyQueryDom extends Array{
         })
         return this._result(result);
     }
+    /**
+     * 绑定事件
+     */
     on(even,fnc){
         this.forEach(ele=>{
             ele.addEventListener(even,fnc)
