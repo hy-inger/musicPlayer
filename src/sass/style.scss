@@ -3,6 +3,9 @@
 @import "compass/utilities";
 @import "animate";
 
+*{
+    box-sizing:border-box;
+}
 html{
     font-size: 625%;
 }
@@ -24,30 +27,34 @@ body{
 /*lrc*/
 .lrc-container{
     width: 3rem;
-    height: 1.45rem;
+    height: 4rem;
     text-align: center;
     overflow: hidden;
+    /* overflow-y: auto;
+    overflow-x: hidden; */
     background: rgba(0,0,0,0.4);
     position: relative;
     .lrc-list{
-        @include animation-duration(1s);
-        @include animation-timing-function(ease);
-        @include animation-fill-mode(forwards);
+        //@include animation-duration(.5s);
+        //@include animation-timing-function(linear);
+        //@include animation-fill-mode(forwards);
+        @include transition(top,.5s,linear);
         position: absolute;
         width: inherit;
         .lyric{
-            padding:.1rem .2rem; 
+            padding:.08rem .2rem; 
             color:#827373;
+            min-height: .3rem;
+            line-height: .15rem;
         }
         .active{
             color:#fff;
-            font-size: .15rem;
         }
     }
 }
 
 @include keyframes(scrollUp){
     100%{
-        transform:translateY(-.35rem);
+        transform:translateY(-.3rem);
     }
 }

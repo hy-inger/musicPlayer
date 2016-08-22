@@ -15,7 +15,7 @@ module.exports = {
         // chunkFilename: "[name].bundle.js" // 非主入口打包文件路径,如分片
     },
     module: {
-        loaders: [{
+        loaders: [{ 
             test: /\.js$/,
             exclude: /node_modules/,
             loader: 'babel-loader'

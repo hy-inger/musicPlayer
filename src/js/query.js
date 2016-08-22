@@ -189,10 +189,14 @@ class MyQueryDom extends Array{
         }
     }
     css(prop, val) {
-        if (typeof prop === 'object') {
+        if(typeof val === 'undefined'){
+            var result = [];
             this.forEach(ele => {
-
+                result.push(ele.style.prop);
             });
+            return this._result(result)
+        } else if (typeof prop === 'object') {
+            
         } else {
             this.forEach(ele => {
                 ele.style[prop] = val;
@@ -247,6 +251,12 @@ class MyQueryDom extends Array{
     unbind(even,fnc){
         this.forEach(ele=>{
             ele.removeEventListener(even,fnc)
+        });
+        return this;
+    }
+    appendChild(child){
+        this.forEach(ele=>{
+            ele.appendChild(child);
         });
         return this;
     }
