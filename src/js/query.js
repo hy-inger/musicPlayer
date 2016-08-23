@@ -107,6 +107,18 @@ class MyQueryDom extends Array{
         }
         return this;
     }
+    hasClass(className){
+        var result = [];
+        this.forEach(ele => {
+            if (ele.classList) {
+                result.push(ele.classList.contains(className));
+            } else {
+                var reg = new RegExp('(^| )' + className + '( |$)', 'gi');
+                result.push(reg.test(ele.className));
+            }
+        });
+        return this._result(result);;
+    }
     addClass(className) {
         this.forEach(ele => {
             if (ele.classList) {

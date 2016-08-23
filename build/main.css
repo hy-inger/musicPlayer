@@ -7413,25 +7413,20 @@ body {
 
 @-moz-keyframes scrollUp {
   100% {
-    -webkit-transform: translateY(-0.3rem);
     transform: translateY(-0.3rem); } }
 
 @-webkit-keyframes scrollUp {
   100% {
-    -webkit-transform: translateY(-0.3rem);
     transform: translateY(-0.3rem); } }
 
 @-o-keyframes scrollUp {
   100% {
-    -webkit-transform: translateY(-0.3rem);
     transform: translateY(-0.3rem); } }
 
 @-ms-keyframes scrollUp {
   100% {
-    -webkit-transform: translateY(-0.3rem);
     transform: translateY(-0.3rem); } }
 
 @keyframes scrollUp {
   100% {
-    -webkit-transform: translateY(-0.3rem);
     transform: translateY(-0.3rem); } }
