@@ -1,3 +1,5 @@
+
+
 ## HTML5 音乐播放器
 --------------
 1. 安装`node`环境和`npm` (需要node 4.5.0或以上)
@@ -42,3 +44,10 @@
         npm run build
     ```
     打开index.html
+
+## 8.23-更新插件:
+--------------
+    若无安装请先安装~
+    ```
+        npm install html-webpack-plugin
+    ```

@@ -1,5 +1,6 @@
 require("./sass/style.scss");
 // require("../index.html");
+console.log("helo");
 var {Store,Dispatch} = require("./js/ctrl.js");
 window.player = Store.state.player;
 Dispatch("SEARCH","陈奕迅")
@@ -8,7 +9,6 @@ $q("button[name='play']").on('click', function(event) {
     // 分发改变当前播放状态事件
     Dispatch("CHANGE_STATE")
 });
-
 $q("button[changebtn]").on('click', function(event) {
     var type = $q(this).attr("action-type");
     if (type === 'next') {
