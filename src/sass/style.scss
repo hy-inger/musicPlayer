@@ -29,15 +29,15 @@ body{
     width: 3rem;
     height: 4rem;
     text-align: center;
-    overflow: hidden;
-    /* overflow-y: auto;
-    overflow-x: hidden; */
+    /* overflow: hidden; */
+    overflow-y: auto;
+    overflow-x: hidden;
     background: rgba(0,0,0,0.4);
     position: relative;
     .lrc-list{
-        //@include animation-duration(.5s);
-        //@include animation-timing-function(linear);
-        //@include animation-fill-mode(forwards);
+        /* @include animation-duration(.5s);
+        @include animation-timing-function(linear);
+        @include animation-fill-mode(forwards); */
         @include transition(top,.5s,linear);
         position: absolute;
         width: inherit;
@@ -46,6 +46,11 @@ body{
             color:#827373;
             min-height: .3rem;
             line-height: .15rem;
+            &:hover{
+                text-decoration: underline;
+                cursor: pointer;
+                color:#B7ADAD;
+            }
         }
         .active{
             color:#fff;
