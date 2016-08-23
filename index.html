@@ -5,9 +5,8 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="referrer" content="never">
-    <link rel="stylesheet" type="text/css" href="/build/main.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="./main.css" /> -->
     <!--使用该方法加载dev-server模块不会自动生成json文件-->
-    <script src="/webpack-dev-server.js"></script>
     <!--sublime text 3 livereload-->
     <!-- <script src="http://localhost:35729/livereload.js"></script> -->
 </head>
@@ -42,44 +41,10 @@
         </div>
         <ul class="song-list unstyle"></ul>
     </main>
-    <script type="text/javascript" src="./build/main.js"></script>
     <!-- <script type="text/javascript" src="./main.js"></script> -->
-    <style>
-        input[type=range] {
-            /*removes default webkit styles*/
-            -webkit-appearance: none;
-            /*fix for FF unable to apply focus style bug */
-            border: 1px solid white;
-            /*required for proper track sizing in FF*/
-            width: 300px;
-        }
+    <!-- <script type="text/javascript" src="./main.js"></script> -->
+    <!-- <script src="/webpack-dev-server.js"></script> -->
 
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 300px;
-            height: 5px;
-            background: #ddd;
-            border: none;
-            border-radius: 3px;
-        }
-
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            border: none;
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
-            background: goldenrod;
-            margin-top: -4px;
-        }
-
-        input[type=range]:focus {
-            outline: none;
-        }
-
-        input[type=range]:focus::-webkit-slider-runnable-track {
-            background: #ccc;
-        }
-    </style>
 </body>
 
 </html>

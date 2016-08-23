@@ -1,5 +1,6 @@
 require("./sass/style.scss");
 // require("../index.html");
+console.log("helo");
 var {Store,Dispatch} = require("./js/ctrl.js");
 window.player = Store.state.player;
 Dispatch("SEARCH","陈奕迅")

@@ -7,7 +7,6 @@
 
 var {MyAudio,Music} = require("./audio.js");
 require("expose?$q!./query.js");
-console.log("hell dddd o");
 // 创建一首音乐并且将音乐与其dom关联.
 function createMusicDom(music){
     var index = $q(".song-list li").length;
