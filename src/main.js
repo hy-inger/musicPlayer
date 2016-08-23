@@ -8,6 +8,7 @@ $q("button[name='play']").on('click', function(event) {
     // 分发改变当前播放状态事件
     Dispatch("CHANGE_STATE")
 });
+
 $q("button[changebtn]").on('click', function(event) {
     var type = $q(this).attr("action-type");
     if (type === 'next') {
@@ -26,4 +27,10 @@ $q("#search-btn").on('click', function(event) {
 $q("input[type='range']").on('input', function(event) {
     // 分发改变音乐大小事件
     Dispatch("CHANGE_VOLUME",Number.parseInt(this.value));
+});
+
+$q("#player").on("pause", function(){
+    $q("button[name='play']").removeClass("pause-btn").addClass("play-btn");
+}).on("play", function(){
+    $q("button[name='play']").removeClass("play-btn").addClass("pause-btn");
 });

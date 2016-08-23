@@ -1,27 +1,37 @@
 class MyQueryDom extends Array{
-    constructor(ele) {
+    constructor(ele,ctx) {
         super();
-        if (ele.length === 1) {
-            this[0] = ele[0];
-        }else {
-            ele.forEach((e,i)=>{
-                this[i] = e;
-            })
+        // 如果已经是$q实例.则返回
+        if (ele instanceof MyQueryDom) {
+            return ele;
         }
+
+        // 单独的一个dom,转成$q对象
+        if (ele.nodeType === 1) {
+            this[0] = ele;
+            return this;
+        }else if((Array.isArray(ele)||ele.item) && Array.from(ele).every(el=>el.nodeType === 1)){
+            // 多个dom.转成query对象
+            Array.from(ele).forEach((el,i)=>{
+                this[i] = el;
+            });
+            return this;
+        }else if(/\<.*>/.test(ele)){
+            // html则使用parseHTML转成dom对象
+            this[0]=MyQueryDom.parseHTML(ele);
+            return this;
+        }
+        // 根据选择器选择dom元素
+        var ctx = ctx?(ctx.nodeType === 1 ?ctx:document.querySelector(ctx)):window.document;
+        var dom = Array.from(ctx.querySelectorAll(ele));
+        dom.forEach((el,i)=>{
+            this[i] = el;
+        });
+        return this;
     }
     // call 关键词可以不需要通过new来创建实例
     call constructor(ele) {
-        var dom ;
-        if (ele.nodeType) {
-            dom = [ele]
-        }else if(typeof ele === 'string'){
-            dom = Array.from(document.querySelectorAll(ele));
-        }else {
-            console.error("没有匹配到");
-            return "";
-        }
-        var result = new MyQueryDom(dom);
-        return result;
+        return new MyQueryDom(ele);
     }
     /**
      * 解析html语句并返回构造出来的dom元素
@@ -136,7 +146,7 @@ class MyQueryDom extends Array{
         }
     }
     /**
-     * 将dom插入到当前元素后面
+     * 将dom插入到当前元素后面,返回this.链式操作
      */
     after(dom) {
         if (typeof dom === 'string') {
@@ -151,7 +161,7 @@ class MyQueryDom extends Array{
         return this;
     }
     /**
-     * 将dom插入到当前元素前面
+     * 将dom插入到当前元素前面,返回this.链式操作
      */
     before(dom) {
         if (typeof dom === 'string') {
@@ -248,9 +258,9 @@ class MyQueryDom extends Array{
                     result.push(ele);
                 }
             });
-            return result;
+            return new MyQueryDom(result);
         }
-        return children;
+        return new MyQueryDom(children);
     }
     /**
      * 寻找该dom元素下的某个匹配元素
@@ -258,9 +268,9 @@ class MyQueryDom extends Array{
     find(string) {
         var result = [];
         this.forEach(ele => {
-            result.push(ele.querySelectorAll(string));
-        })
-        return this._result(result);
+            result.push(...ele.querySelectorAll(string));
+        });
+        return new MyQueryDom(this._result(result));
     }
     /**
      * 设置dom下的html
@@ -271,7 +281,7 @@ class MyQueryDom extends Array{
             this.forEach(ele => {
                 result.push(ele.innerHTML)
             });
-            return this._result(result)
+            return new MyQueryDom(this._result(result));
         } else {
             this.forEach(ele => {
                 ele.innerHTML = string
@@ -302,7 +312,7 @@ class MyQueryDom extends Array{
         this.forEach(ele => {
             result.push(ele.parentNode);
         });
-        return this._result(result);
+        return new MyQueryDom(this._result(result));
     }
     /**
      * 获取最近的父辈节点
@@ -312,7 +322,7 @@ class MyQueryDom extends Array{
         this.forEach(ele=>{
             result.push(...ele.closest(string));
         });
-        return result;
+        return new MyQueryDom(result);
     }
     /**
      * 上一个节点
@@ -320,9 +330,11 @@ class MyQueryDom extends Array{
     prev() {
         var result = [];
         this.forEach(ele => {
-            result.push(ele.previousElementSibling)
+            if (ele.previousElementSibling) {
+                result.push(ele.previousElementSibling)
+            }
         });
-        return this._result(result);
+        return new MyQueryDom(this._result(result));
     }
     /**
      * 下一个节点
@@ -330,9 +342,11 @@ class MyQueryDom extends Array{
     next() {
         var result = [];
         this.forEach(ele => {
-            result.push(ele.nextElementSibling)
+            if (ele.nextElementSibling) {
+                result.push(ele.nextElementSibling)
+            }
         });
-        return this._result(result);
+        return new MyQueryDom(this._result(result));
     }
     /**
      * 兄弟节点
@@ -345,7 +359,7 @@ class MyQueryDom extends Array{
             });
             result.push(...sib);
         })
-        return this._result(result);
+        return new MyQueryDom(this._result(result));
     }
     /**
      * 绑定事件

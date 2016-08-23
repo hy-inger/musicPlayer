@@ -1,46 +1,85 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-        <meta name="referrer" content="never">
-        <link rel="stylesheet" type="text/css" href="/build/main.css"/>
-        <!--使用该方法加载dev-server模块不会自动生成json文件-->
-        <!-- <script src="http://localhost/webpack-dev-server.js"></script> -->
-        <!--sublime text 3 livereload-->
-         <!-- <script src="http://localhost:35729/livereload.js"></script> -->
-    </head>
-    <body>
-        <main class='player-container'>
-            <section class="player-content">
-                <div class="search">
-                    <input id="search-input" type="search" name="name" placeholder="输入歌曲名">
-                    <button id="search-btn" type="button" name="button">搜索</button>
-                </div>
-                <table class="search-list unstyle">
-                    <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>歌名</th>
-                            <th>歌手</th>
-                            <th>专辑</th>
-                            <th>时长</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </section>
-            <!-- 控制器 -->
-            <div class="player-control-bar">
-                <button type="button" name="prev" changebtn action-type="prev">prev</button>
-                <button type="button" name="play" data-status='play'>play</button>
-                <button type="button" name="next" changebtn action-type="next">next</button>
-                <input type="range" name="progress" value="100" >
-                <audio id="player" controls src='http://yinyueshiting.baidu.com/data2/music/134369001/7319923154800128.mp3?xcode=7355b995cf3e983e37ff48ca31f559c2'></audio>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="referrer" content="never">
+    <link rel="stylesheet" type="text/css" href="/build/main.css" />
+    <!--使用该方法加载dev-server模块不会自动生成json文件-->
+    <!-- <script src="http://localhost/webpack-dev-server.js"></script> -->
+    <!--sublime text 3 livereload-->
+    <!-- <script src="http://localhost:35729/livereload.js"></script> -->
+</head>
+
+<body>
+    <main class='player-container'>
+        <audio id="player" controls></audio>
+        <section class="player-content">
+            <div class="search">
+                <input id="search-input" type="search" name="name" placeholder="输入歌曲名">
+                <button id="search-btn" type="button" name="button">搜索</button>
             </div>
-            <ul class="song-list unstyle"></ul>
-        </main>
-        <script type="text/javascript" src="./build/main.js"></script>
-        <!-- <script type="text/javascript" src="./main.js"></script> -->
-    </body>
+            <table class="search-list unstyle">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>歌名</th>
+                        <th>歌手</th>
+                        <th>专辑</th>
+                        <th>时长</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+        <!-- 控制器 -->
+        <div class="player-control-bar">
+            <button class="prev-btn" type="button" name="prev" changebtn action-type="prev"></button>
+            <button class="play-btn" type="button" name="play" data-status='play'></button>
+            <button class="next-btn" type="button" name="next" changebtn action-type="next"></button>
+            <input class="time-line" type="range" name="progress" value="">
+        </div>
+        <ul class="song-list unstyle"></ul>
+    </main>
+    <script type="text/javascript" src="./build/main.js"></script>
+    <!-- <script type="text/javascript" src="./main.js"></script> -->
+    <style>
+        input[type=range] {
+            /*removes default webkit styles*/
+            -webkit-appearance: none;
+            /*fix for FF unable to apply focus style bug */
+            border: 1px solid white;
+            /*required for proper track sizing in FF*/
+            width: 300px;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 300px;
+            height: 5px;
+            background: #ddd;
+            border: none;
+            border-radius: 3px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: goldenrod;
+            margin-top: -4px;
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #ccc;
+        }
+    </style>
+</body>
+
 </html>

@@ -16,6 +16,7 @@ const Qs = {
     from:"webapp_music",
     calback:"",
 }
+
 // 设置允许跨域
 app.use(cors());
 // 搜索接口,用于搜索歌词,调用百度音乐api
