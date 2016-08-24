@@ -13,7 +13,6 @@ class Music{
 }
 
 class MyAudio {
-    lalalal = 1;
     /**
      * 构造器
      * @param {element} audio的dom元素
