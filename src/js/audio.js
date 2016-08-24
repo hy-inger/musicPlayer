@@ -145,7 +145,7 @@ class MyAudio {
         }
         this.musicList.forEach((mus)=>{
             $q(mus.dom).removeClass("active");
-        })
+        });
         $q(music.dom).addClass("active");
         // 通过后台代理并将二进制转成blob播放
         // fetch("http://localhost:4000/proxy?url="+music.info.songLink)
