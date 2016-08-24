@@ -182,7 +182,7 @@ class MyQueryDom extends Array{
     find(string) {
         var result = [];
         this.forEach(ele => {
-            result.push(ele.querySelectorAll(string));
+            result.push(new MyQueryDom(Array.from(ele.querySelectorAll(string))));
         })
         return this._result(result);
     }
