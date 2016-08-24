@@ -1,50 +1,54 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="referrer" content="never">
-    <!-- <link rel="stylesheet" type="text/css" href="./main.css" /> -->
-    <!--使用该方法加载dev-server模块不会自动生成json文件-->
-    <!--sublime text 3 livereload-->
-    <!-- <script src="http://localhost:35729/livereload.js"></script> -->
-</head>
-
-<body>
-    <main class='player-container'>
-        <audio id="player" controls></audio>
-        <section class="player-content">
-            <div class="search">
-                <input id="search-input" type="search" name="name" placeholder="输入歌曲名">
-                <button id="search-btn" type="button" name="button">搜索</button>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="referrer" content="never">
+        <link rel="stylesheet" type="text/css" href="./build/main.css"/>
+        <!--使用该方法加载dev-server模块不会自动生成json文件-->
+        <!-- <script src="http://localhost/webpack-dev-server.js"></script> -->
+        <!--sublime text 3 livereload-->
+         <!-- <script src="http://localhost:35729/livereload.js"></script> -->
+    </head>
+    <body>
+        <main class='player-container'>
+            <audio id="player" src='http://file.qianqian.com//data2/music/42525724/42525724.mp3?xcode=c501e8c8e6f92695c70098e904ce32a9&src="http%3A%2F%2Fpan.baidu.com%2Fshare%2Flink%3Fshareid%3D3998744624%26uk%3D4149459281' controls></audio>
+            <section class="player-content">
+                <div class="search">
+                    <input id="search-input" type="search" name="name" placeholder="输入歌曲名">
+                    <button id="search-btn" type="button" name="button">搜索</button>
+                </div>
+                <table class="search-list unstyle">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>歌名</th>
+                            <th>歌手</th>
+                            <th>专辑</th>
+                            <th>时长</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <!-- 控制器 -->
+            <div class="player-control-bar">
+                <button class="prev-btn" type="button" name="prev" changebtn action-type="prev"></button>
+                <button class="play-btn" type="button" name="play" data-status='play'></button>
+                <button class="next-btn" type="button" name="next" changebtn action-type="next"></button>
+                <span id="current-time"></span>
+                <div class="progress-container">
+                    <input  class="time-line" type="range" name="progress" max="1000" min="0" value="0" >
+                    <span class="played-progress"></span>
+                </div>
+                
+                <span id="duration"></span>
             </div>
-            <table class="search-list unstyle">
-                <thead>
-                    <tr>
-                        <th>序号</th>
-                        <th>歌名</th>
-                        <th>歌手</th>
-                        <th>专辑</th>
-                        <th>时长</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </section>
-        <!-- 控制器 -->
-        <div class="player-control-bar">
-            <button class="prev-btn" type="button" name="prev" changebtn action-type="prev"></button>
-            <button class="play-btn" type="button" name="play" data-status='play'></button>
-            <button class="next-btn" type="button" name="next" changebtn action-type="next"></button>
-            <input class="time-line" type="range" name="progress" value="">
-        </div>
-        <ul class="song-list unstyle"></ul>
-    </main>
+            <ul class="song-list unstyle"></ul>
+        </main>
     <!-- <script type="text/javascript" src="./main.js"></script> -->
     <!-- <script type="text/javascript" src="./main.js"></script> -->
     <!-- <script src="/webpack-dev-server.js"></script> -->
-
 </body>
 
 </html>

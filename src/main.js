@@ -23,13 +23,23 @@ $q("#search-btn").on('click', function(event) {
     // 分发搜索音乐事件
     Dispatch("SEARCH",val)
 });
-$q("input[type='range']").on('input', function(event) {
-    // 分发改变音乐大小事件
-    Dispatch("CHANGE_VOLUME",Number.parseInt(this.value));
-});
 
 $q("#player").on("pause", function(){
     $q("button[name='play']").removeClass("pause-btn").addClass("play-btn");
 }).on("play", function(){
     $q("button[name='play']").removeClass("play-btn").addClass("pause-btn");
 });
+
+
+$q("#player").on('timeupdate', function(){
+    var progress = (this.currentTime/this.duration)*1000;
+    $q(".time-line").val(progress);
+    $q(".played-progress").css('width', progress/10+'%')
+});
+
+$q(".time-line").on('input',function () {
+    // Dispatch("CHANGE_CURRENT_TIME", $q(this).val()/10);
+    $q("#player")[0].currentTime = $q("#player")[0].duration*$q(this).val()/1000;
+    $q(".played-progress").css('width', $q(this).val()/10*0.99+'%')
+});
+

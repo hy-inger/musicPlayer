@@ -133,43 +133,51 @@ body{
             top: 8px;
         }
     }
+    
+}
 
-    .timeline {
-        /*removes default webkit styles*/
-        -webkit-appearance: none;
+.progress-container {
+    display: inline-block;
+    width: 50%;
+    position:relative;
+}
 
+.time-line {
+        /*removes default webkit styles*/ 
+    -webkit-appearance: none;
+        
         /*fix for FF unable to apply focus style bug */
-        border: 1px solid white;
-
+    border: 1px solid white;
+        
         /*required for proper track sizing in FF*/
-        width: 50%;
-    }
-    .timeline::-webkit-slider-runnable-track {
-        width: 50%;
-        height: 5px;
-        background: #ddd;
-        border: none;
-        border-radius: 5px;
-    }
-    .timeline::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        border: none;
-        height: 5px;
-        width: 5px;
-        border-radius: 50%;
-        border:1px solid #000;
-        background: #00f;
-        margin-top: -4px;
-    }
-    .timeline:focus {
-        outline: none;
-    }
-    .timeline:focus::-webkit-slider-runnable-track {
-        background: #ccc;
-    }
+    width: 100%;
+    position: absolute;
+    top: -10px;
+    border-radius: 5px;
+}
+.time-line::-webkit-slider-runnable-track {
+    width: 50%;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 5px;
+}
+.time-line::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background: red;
+    margin-top: -4px;
+    z-index: 1000;
+}
 
-} 
 
+.time-line:focus {
+    outline: none;
+}
 
 /*lrc*/
 .lrc-container{
@@ -224,4 +232,23 @@ body{
     100%{
         transform:translateY(-.3rem);
     }
-}
+}    
+
+.time-line:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}    
+
+.played-progress {
+    background: red;
+    position:absolute;
+    display: inline-block;
+    width: 0%;
+    height: 5px;
+    position: absolute;
+    left: 3px;
+    top: -7px;
+    border-radius: 5px
+}    
+
+
+
