@@ -10,20 +10,27 @@ require("expose?$q!./query.js");
 // 创建一首音乐并且将音乐与其dom关联.
 function createMusicDom(music){
     var index = $q(".song-list li").length;
-    var li = `<li><span>${index}</span><span>${music.songName}</span></li>`;
+    var li = `<li><span>${index}</span><span>${music.songName}</span><i class="rm">x</i></li>`;
     var dom = $q.parseHTML(li)
     var mus = new Music(music,dom);
     $q(dom).on('click', function(event) {
         event.preventDefault();
         window.player.load(mus);
     });
+    $q(dom).find(".rm").on('click', function(event) {
+        event.stopPropagation();
+        Dispatch("REMOVE_MUSIC",mus,(rm,list)=>{
+            console.log(rm);
+            $q(rm.dom).remove();
+        });
+    });
     return mus;
 }
 var Store = {
     // 状态,存放播放器和搜索列表
     state : {
-        player:new MyAudio(document.getElementById("player")),
-        searchList:[]
+        player:new MyAudio(document.getElementById("player")), // 播放器实例
+        searchList:[]  // 当前的搜索列表
     },
     // 相应的操作事件
     mou : {
@@ -37,11 +44,13 @@ var Store = {
         },
         // 搜索
         SEARCH(state,query){
+            // 向后台拉取搜索到的数据
             fetch("http://localhost:4000/search?query="+query,{
                 mod:"cors"
             }).then(res=>res.json()).then(data=>{
                 var songList = data.data.songList;
                 console.log("songList",songList);
+                // 刷新当前搜索列表数据
                 Dispatch("REFRESH_SEARCH_LIST",songList);
                 var tbody = "";
                 songList.forEach((music,index)=>{
@@ -50,6 +59,7 @@ var Store = {
                 $q(".search-list tbody").html(tbody);
                 $q(".search-list tbody tr").on('click', function(event) {
                     var index = $q(this).data("index");
+                    // 从搜索列表中添加音乐到播放列表并播放
                     Dispatch("LOAD_FROM_SEARCHLIST",index);
                 });
             });
@@ -91,12 +101,48 @@ var Store = {
         },
         // 改变音量音量
         CHANGE_VOLUME(state,val){
-            console.log(val);
             state.player.changeVolume(val);
         },
         // 播放进度,0-100整数,代表百分比
         CHANGE_CURRENT_TIME(val){
             state.player.setCurrentTime(val);
+        },
+        // 播放模式,mod为将要修改的模式
+        // order : 顺序播放
+        // range : 随机播放
+        // loop : 单曲循环
+        CHANGE_PLAY_MOD(state,mod){
+            if (mod === 'loop') {
+                state.player.audio.loop = true;
+            }else{
+                state.player.audio.loop = false;
+                state.player.cfg.playMod = mod;
+            }
+        },
+        // 获取当前播放列表
+        // 返回 Array.
+        GET_MUSIC_LIST(state){
+            return state.player.musicList;
+        },
+        // 删除某一首音乐
+        // 如果music为number,则删除该索引的音乐
+        // 如果music为Music实例,则删除该对象
+        REMOVE_MUSIC(state,music,fnc){
+            let player = state.player;
+            let remove ,index;
+            if (typeof music === 'number') {
+                index = music;
+            }else {
+                index = player.musicList.indexOf(music);
+            }
+            if (index === player.index) {
+                player.next();
+            }
+            index <= player.index&&player.index--;
+            remove = player.musicList.splice(index,1);
+            if (typeof fnc === 'function') {
+                fnc(...remove,player.musicList);
+            }
         }
     }
 }

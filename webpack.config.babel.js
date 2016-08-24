@@ -37,7 +37,7 @@ module.exports = {
         //ignore,
         new webpack.NoErrorsPlugin(),
         // new  webpack.optimize.CommonsChunkPlugin('common.js')  // 提取公用模块
-        //new webpack.HotModuleReplacementPlugin(),//热加载插件
+        new webpack.HotModuleReplacementPlugin(),//热加载插件
         new ExtractTextPlugin("[name].css"),//生成独立的css文件名,
         new HtmlWebpackPlugin({
             template:"./index.html"

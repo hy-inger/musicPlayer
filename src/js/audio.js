@@ -28,15 +28,13 @@ class MyAudio {
             ended:function(){}, // 结束回调
             play:function(){}, // 播放时候回调
             progress:function(){}, // 缓冲时事件
-            playType :"order"  // 播放类型,
+            playMod :"order"  // 播放类型,
         };
         // 配置,播放回调,播放结束回调
         this.cfg = Object.assign(defaultCfg,cfg);
         this.audio.addEventListener("ended",()=>{
-            if (this.audio.loop) {
-                // 单曲播放则设置重新播放
-                this.audio.currentTime = 0;
-            }else {
+            if (!this.audio.loop) {
+                // 只要不是单曲循环,都会执行下一首操作.
                 this.next();
             }
             this.cfg.ended();
@@ -137,6 +135,9 @@ class MyAudio {
      * 加载并播放音乐
      */
     load(music){
+        if (typeof music === 'undefined') {
+            return this;
+        }
         if (!this.musicList.includes(music)) {
             this.musicList.push(music)
             this.index = this.musicList.length - 1;
@@ -159,42 +160,40 @@ class MyAudio {
         //     this.play();
         // })
         this.audio.src = music.info.songLink;
+        console.log(music.info.songName);
         this.play();
         return this;
     }
-    // 设置单曲循环
-    loop(isLoop){
-        this.audio.loop = isLoop;
-        return this;
-    }
-    // 下一首音乐
+    // 下一首音乐,返回this,可进行链式调用
     next(){
-        if (this.cfg.playType === "order") {
+        if (this.cfg.playMod === "order") {
+            // 顺序播放
             this.index++;
             if (this.index >= this.musicList.length) {
                 this.index = 0;
             }
         }else {
+            // 随机播放
             this.index = parseInt(Math.random()*this.musicList.length,10);
         }
         var music = this.musicList[this.index];
         this.load(this.musicList[this.index])
-        console.log(music.info.albumName);
         return this;
     }
-    // 上一首音乐
+    // 上一首音乐,返回this,可进行链式调用
     prev(){
-        if (this.cfg.playType === "order") {
+        if (this.cfg.playMod === "order") {
+            // 顺序播放
             this.index--;
             if (this.index < 0) {
                 this.index = this.musicList.length -1;
             }
         }else {
+            // 随机播放
             this.index = parseInt(Math.random()*this.musicList.length,10);
         }
         var music = this.musicList[this.index];
         this.load(this.musicList[this.index])
-        console.log(music.info.albumName);
         return this;
     }
 
