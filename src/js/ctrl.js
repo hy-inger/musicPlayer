@@ -29,8 +29,8 @@ function createMusicDom(music){
 var Store = {
     // 状态,存放播放器和搜索列表
     state : {
-        player:new MyAudio(document.getElementById("player")),
-        searchList:[]
+        player:new MyAudio(document.getElementById("player")), // 播放器实例
+        searchList:[]  // 当前的搜索列表
     },
     // 相应的操作事件
     mou : {
@@ -44,11 +44,13 @@ var Store = {
         },
         // 搜索
         SEARCH(state,query){
+            // 向后台拉取搜索到的数据
             fetch("http://localhost:4000/search?query="+query,{
                 mod:"cors"
             }).then(res=>res.json()).then(data=>{
                 var songList = data.data.songList;
                 console.log("songList",songList);
+                // 刷新当前搜索列表数据
                 Dispatch("REFRESH_SEARCH_LIST",songList);
                 var tbody = "";
                 songList.forEach((music,index)=>{
@@ -57,6 +59,7 @@ var Store = {
                 $q(".search-list tbody").html(tbody);
                 $q(".search-list tbody tr").on('click', function(event) {
                     var index = $q(this).data("index");
+                    // 从搜索列表中添加音乐到播放列表并播放
                     Dispatch("LOAD_FROM_SEARCHLIST",index);
                 });
             });

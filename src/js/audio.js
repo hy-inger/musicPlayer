@@ -13,6 +13,7 @@ class Music{
 }
 
 class MyAudio {
+    lalalal = 1;
     /**
      * 构造器
      * @param {element} audio的dom元素
@@ -164,12 +165,7 @@ class MyAudio {
         this.play();
         return this;
     }
-    // 设置单曲循环
-    loop(isLoop){
-        this.audio.loop = isLoop;
-        return this;
-    }
-    // 下一首音乐
+    // 下一首音乐,返回this,可进行链式调用
     next(){
         if (this.cfg.playMod === "order") {
             // 顺序播放
@@ -185,7 +181,7 @@ class MyAudio {
         this.load(this.musicList[this.index])
         return this;
     }
-    // 上一首音乐
+    // 上一首音乐,返回this,可进行链式调用
     prev(){
         if (this.cfg.playMod === "order") {
             // 顺序播放
