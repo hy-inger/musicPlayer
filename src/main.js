@@ -1,6 +1,5 @@
 require("./sass/style.scss");
 // require("../index.html");
-console.log("helo");
 var {Store,Dispatch} = require("./js/ctrl.js");
 window.player = Store.state.player;
 Dispatch("SEARCH","陈奕迅")
@@ -39,8 +38,8 @@ $q("#player").on('timeupdate', function(){
 });
 
 $q(".time-line").on('input',function () {
-    Dispatch("CHANGE_CURRENT_TIME", $q("#player")[0].duration*$q(this).val()/1000);
-    // $q("#player")[0].currentTime = $q("#player")[0].duration*$q(this).val()/1000;
+    // Dispatch("CHANGE_CURRENT_TIME", $q(this).val()/10);
+    $q("#player")[0].currentTime = $q("#player")[0].duration*$q(this).val()/1000;
     $q(".played-progress").css('width', $q(this).val()/10*0.99+'%')
 });
 
