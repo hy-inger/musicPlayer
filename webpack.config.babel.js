@@ -6,7 +6,10 @@ import ExtractTextPlugin from "extract-text-webpack-plugin";//将css分离到独
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
-    entry: './src/main.js', // 主入口文件
+    entry: {
+        "main":'./src/main.js',
+        "lrc":'./src/js/lrc.js'
+    }, // 主入口文件
     output: {
         path: './build',
         // publicPath:"./build",
@@ -14,7 +17,7 @@ module.exports = {
         // chunkFilename: "[name].bundle.js" // 非主入口打包文件路径,如分片
     },
     module: {
-        loaders: [{
+        loaders: [{ 
             test: /\.js$/,
             exclude: /node_modules/,
             loader: 'babel-loader'
@@ -37,7 +40,7 @@ module.exports = {
         //ignore,
         new webpack.NoErrorsPlugin(),
         // new  webpack.optimize.CommonsChunkPlugin('common.js')  // 提取公用模块
-        new webpack.HotModuleReplacementPlugin(),//热加载插件
+        //new webpack.HotModuleReplacementPlugin(),//热加载插件
         new ExtractTextPlugin("[name].css"),//生成独立的css文件名,
         new HtmlWebpackPlugin({
             template:"./index.html"

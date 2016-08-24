@@ -176,6 +176,22 @@ class MyQueryDom extends Array{
         return this;
     }
     /**
+     *  判断是否存在某个类
+     * 当选择器下所有dom都存在返回true,否则返回false
+     */
+    hasClass(className){
+        var result = [];
+        this.forEach(ele => {
+            if (ele.classList) {
+                result.push(ele.classList.contains(className));
+            } else {
+                var reg = new RegExp('(^| )' + className + '( |$)', 'gi');
+                result.push(reg.test(ele.className));
+            }
+        });
+        return this._result(result);;
+    }
+    /**
      * 增加类
      */
     addClass(className) {
@@ -205,7 +221,7 @@ class MyQueryDom extends Array{
      * 判断是否存在某个类
      * 当选择器下所有dom都存在返回true,否则返回false
      */
-    hasClass(className) {
+    /*hasClass(className) {
         var result = true;
         this.every(ele=>{
             var has = ele.classList.conotains(className);
@@ -215,7 +231,7 @@ class MyQueryDom extends Array{
             return has;
         });
         return result;
-    }
+    }*/
     /**
      * 切换类名
      */
@@ -271,6 +287,9 @@ class MyQueryDom extends Array{
             result.push(...ele.querySelectorAll(string));
         });
         return new MyQueryDom(this._result(result));
+            /*result.push(new MyQueryDom(Array.from(ele.querySelectorAll(string))));
+        })
+        return this._result(result);*/
     }
     /**
      * 设置dom下的html
@@ -293,10 +312,14 @@ class MyQueryDom extends Array{
      * 设置css属性
      */
     css(prop, val) {
-        if (typeof prop === 'object') {
+        if(typeof val === 'undefined'){
+            var result = [];
             this.forEach(ele => {
-
+                result.push(ele.style.prop);
             });
+            return this._result(result)
+        } else if (typeof prop === 'object') {
+            
         } else {
             this.forEach(ele => {
                 ele.style[prop] = val;
@@ -354,7 +377,7 @@ class MyQueryDom extends Array{
     siblings() {
         var result = [];
         this.forEach(ele => {
-            var sib = ele.parentNode.children.filter(chid => {
+            var sib = Array.from(ele.parentNode.children).filter(chid => {
                 return chid !== ele;
             });
             result.push(...sib);
@@ -369,6 +392,27 @@ class MyQueryDom extends Array{
             ele.addEventListener(even,fnc)
         });
         return this;
+    }
+    /**
+     * 解绑事件
+     */
+    unbind(even,fnc){
+        this.forEach(ele=>{
+            ele.removeEventListener(even,fnc)
+        });
+        return this;
+    }
+    /**
+     * 插入元素
+     */
+    appendChild(child){
+        this.forEach(ele=>{
+            ele.appendChild(child);
+        });
+        return this;
+    }
+    toString(){
+
     }
 }
 // function MyQuery(ele){

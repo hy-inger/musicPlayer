@@ -1,7 +1,20 @@
 @import "compass/reset";
 @import "compass/css3";
 @import "compass/utilities";
+@import "animate";
 
+*{
+    box-sizing:border-box;
+}
+html{
+    font-size: 625%;
+}
+body{
+    font-size: .14rem;
+}
+.clearfix{
+    @include clearfix();
+}
 .unstyle {
     margin:0px;
     padding:0px;
@@ -155,4 +168,60 @@
         background: #ccc;
     }
 
+} 
+
+
+/*lrc*/
+.lrc-container{
+    width: 3rem;
+    height: 4rem;
+    text-align: center;
+    /* overflow: hidden; */
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: rgba(0,0,0,0.4);
+    position: relative;
+    .lrc-list{
+        /* @include animation-duration(.5s);
+        @include animation-timing-function(linear);
+        @include animation-fill-mode(forwards); */
+        @include transition(top,.5s,linear);
+        position: absolute;
+        width: inherit;
+        .lyric{
+            padding:.08rem .2rem; 
+            color:#827373;
+            min-height: .3rem;
+            line-height: .15rem;
+            &:hover{
+                text-decoration: underline;
+                cursor: pointer;
+                color:#B7ADAD;
+            }
+        }
+        .active{
+            color:#fff;
+        }
+    }
+}
+.progress{
+    margin:50px  50px;
+    width: 200px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    position: relative;
+    .play{
+        background:#fff;
+        content: ' ';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+    }
+}
+
+@include keyframes(scrollUp){
+    100%{
+        transform:translateY(-.3rem);
+    }
 }
