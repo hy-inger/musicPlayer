@@ -11,6 +11,7 @@ class Lyric{
         this.lyric_height = [];                                         // 记录歌词高度
         this.lyric_time = [];
         this.req_timer = 0;
+        this.top_num = 5;                                           // 当前歌词与顶部歌词距离多少句歌词
         this.number = (a,b) => a - b                                 // 数组升序
 
         this.parseLrc(lrc_content);                              
@@ -73,7 +74,7 @@ class Lyric{
         if(index == undefined){                                 // 当前时间没有匹配的歌词
             return;
         }
-        if(index <= 5){
+        if(index <= this.top_num){
             this.lrc_list.css('top','0rem');
         }
         let active_lyric = lrc_list.find('.active'),
@@ -81,14 +82,14 @@ class Lyric{
         if(active_index == index){      // 该句歌词已滚动过不再滚动
             return;
         }
-        if(index > 5 && index < (this.lyric_height.length - 2)){
+        if(index > this.top_num && index < (this.lyric_height.length - 2)){
             let active_height = this.lyric_height[index],
                     lrc_list_top = this.lrc_list[0].offsetTop;
             if((index - active_index) == 1){                        // 顺序播放时，按序滚动
                 lrc_list.css('top',((lrc_list_top-active_height)/100)+'rem');
             } else {                                                            // 拖动到某一位置，计算总top
                 let total_height = 0;
-                for(let i = 0,ii = index-5;i<ii;i++){        
+                for(let i = 0,ii = index-this.top_num;i<ii;i++){        
                     total_height +=this. lyric_height[i];
                 }
                 this.lrc_list.css('top',(-total_height/100)+'rem');
@@ -130,12 +131,12 @@ class Lyric{
                     scroll_top = this.lrc_container.scrollTop;
             // 拖动到某一位置，计算总top                                                    
             let total_height = 0;
-            for(let i = 0,ii = index-5;i<ii;i++){        
+            for(let i = 0,ii = index-this.top_num;i<ii;i++){        
                 total_height += this.lyric_height[i];
             }
             let scroll_end = total_height,
                  scroll_interval = parseInt((total_height - scroll_top)/20);
-            if(index>5||(total_height - scroll_top)!=0){
+            if(index>this.top_num||(total_height - scroll_top)!=0){
                 this.requestAnimation((scroll_interval>=0&&scroll_interval<1)?1:scroll_interval,scroll_end);
             }
         }
