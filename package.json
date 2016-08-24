@@ -9,6 +9,7 @@
     "description": "上面webpack端口冲突,所以自定义端口,可自行修改.",
     "start": "webpack-dev-server --inline --hot",
     "build": "webpack --display-error-details",
+    "babel": "babel src/js -d es6",
     "watch": "webpack --progress --colors --watch"
   },
   "repository": {
@@ -23,6 +24,8 @@
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^6.4.0",
+    "babel": "^6.5.2",
+    "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-builtin-extend": "^1.1.0",
