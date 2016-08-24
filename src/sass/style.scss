@@ -57,6 +57,21 @@ body{
         }
     }
 }
+.progress{
+    margin:50px  50px;
+    width: 200px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    position: relative;
+    .play{
+        background:#fff;
+        content: ' ';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+    }
+}
 
 @include keyframes(scrollUp){
     100%{
