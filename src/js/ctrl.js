@@ -10,7 +10,7 @@ require("expose?$q!./query.js");
 function createMusicDom(music){
     var index = $q(".song-list li").length;
     var li = `<li><span>${index}</span><span>${music.songName}</span><i class="rm">x</i></li>`;
-    var dom = $q.parseHTML(li)
+    var dom = $q.parseHTML(li);
     var mus = new Music(music,dom);
     $q(dom).on('click', function(event) {
         event.preventDefault();
@@ -19,7 +19,6 @@ function createMusicDom(music){
     $q(dom).find(".rm").on('click', function(event) {
         event.stopPropagation();
         Dispatch("REMOVE_MUSIC",mus,(rm,list)=>{
-            console.log(rm);
             $q(rm.dom).remove();
         });
     });
@@ -42,25 +41,12 @@ var Store = {
             state.player.pause();
         },
         // 搜索
-        SEARCH(state,query){
+        SEARCH(state,query,callback){
             // 向后台拉取搜索到的数据
             fetch("http://localhost:4000/search?query="+query,{
                 mod:"cors"
             }).then(res=>res.json()).then(data=>{
-                var songList = data.data.songList;
-                console.log("songList",songList);
-                // 刷新当前搜索列表数据
-                Dispatch("REFRESH_SEARCH_LIST",songList);
-                var tbody = "";
-                songList.forEach((music,index)=>{
-                    tbody += `<tr data-index="${index}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${Math.floor(music.time/60)}:${Math.floor(music.time%60)}</td></tr>`;
-                });
-                $q(".search-list tbody").html(tbody);
-                $q(".search-list tbody tr").on('click', function(event) {
-                    var index = $q(this).data("index");
-                    // 从搜索列表中添加音乐到播放列表并播放
-                    Dispatch("LOAD_FROM_SEARCHLIST",index);
-                });
+                callback(data.data.songList);
             });
         },
         // 刷新搜索列表,即将搜索的歌曲重新放入列表当中
@@ -84,11 +70,11 @@ var Store = {
             state.player.prev();
         },
         // 从搜索列表中播放音乐
-        LOAD_FROM_SEARCHLIST(state,index){
+        LOAD_FROM_SEARCHLIST(state,index,callback){
             var music = state.searchList[index];
             music = createMusicDom(music);
-            $q(".song-list")[0].appendChild(music.dom)
             state.player.load(music);
+            callback(music);
         },
         // 加大音量,基数为10
         INCREASE_VOLUME(state){
@@ -142,9 +128,29 @@ var Store = {
             if (typeof fnc === 'function') {
                 fnc(...remove,player.musicList);
             }
+        },
+       /**
+        * 获取歌曲歌词接口
+        * @param {state} state 管理的状态,自动注入
+        * @param {Music} music music对象,会根据对象的songId获取相应的歌词
+        * @return {Objec} 异步获取的data.
+        *         data.lrcContent : 歌词
+        *         data.title : 歌名
+        */
+        GET_MUSIC_LRC(state,music){
+            var songId = music.info.songId;
+            fetch("http://localhost:4000/lrc?songId="+songId,{
+                mod:"cors"
+            })
+            .then((res)=>res.json())
+            .then((data)=>{
+                // data.lrcContent : 歌词
+                // data.title  : 歌名
+                console.log(data);
+            });
         }
     }
-}
+};
 /**
  * 自执行函数,返回一个方法
  * @type {RegExp}
@@ -157,6 +163,6 @@ var Dispatch = (function(store){
         console.log("ACTION-------->>>",action);
         // 调用store中mou对应的action
         return store.mou[action](store.state,...arg);
-    }
+    };
 })(Store);
 module.exports = {Store,Dispatch};
