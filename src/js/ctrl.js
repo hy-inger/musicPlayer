@@ -4,7 +4,6 @@
  * 通过调用Dispatch(action)来控制播放器进行相应的操作
  * 不允许直接对播放器对象进行操作
  */
-
 var {MyAudio,Music} = require("./audio.js");
 require("expose?$q!./query.js");
 // 创建一首音乐并且将音乐与其dom关联.
