@@ -52,11 +52,16 @@ class Lyric{
     }
 
     renderLrc(lyric_obj){               // 将歌词渲染到页面中
-        let k = 0;
+        let k = 0,
+                lyric_length = Object.keys(lyric_obj);
         for(let lyric in lyric_obj){
             let li = document.createElement('li');
             li.innerHTML = lyric_obj[lyric];
-            li.className = "lyric";
+            if(lyric_length<=1){
+                li.className = 'nolyric';
+            } else {
+                li.className = "lyric";
+            }
             li.setAttribute('data',k);
             li.setAttribute('name',lyric);
 
@@ -70,6 +75,9 @@ class Lyric{
     }
 
     scrollLrc(currentTime){                                         // 滚动条不可见。歌词外层容器需设置overflow:hidden
+        if(this.lyric_height.length <=1 ){                                           // 没有歌词不进行滚动。
+            return;
+        }
         let index = this.lyric_index[currentTime];       // 获取当前时间的歌词下标
         if(index == undefined){                                 // 当前时间没有匹配的歌词
             return;
@@ -117,6 +125,9 @@ class Lyric{
         run();
     }
     scrollTopLrc(currentTime){              // 滚动条可见。歌词外层容器需设置overflow-y:auto;overflow-x:hidden
+        if(this.lyric_height.length <=1 ){                       // 没有歌词不进行滚动。
+            return;
+        }
         let index = this.lyric_index[currentTime];       // 获取当前时间的歌词下标
         if(index == undefined){         // 当前时间没有匹配的歌词
             return;
@@ -180,7 +191,7 @@ let lrc_content="[00:01.75]牵丝戏\n[00:03.89]作曲：银临\n[00:06.44]编/�
 let audio = $q('.audio'),
         lrc_container = $q('.lrc-container'),
         lrc_list = $q('.lrc-list');
-let lyric = new Lyric(audio,lrc_list,lrc_container,lrc_content);
+let lyric = new Lyric(audio,lrc_list,lrc_container,"[00:00.00]Sorry，该歌曲暂无歌词。");
 
 // 进度条更新事件
 audio.on('timeupdate',function(e){
