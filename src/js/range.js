@@ -35,9 +35,8 @@ class Range{
         this.slider = $q("#" + containerId + " .slider");
         
         _resizeCallback(this);
-        let self = this 
-        window.addEventListener('resize', function(){
-            _resizeCallback(self);
+        window.addEventListener('resize', event =>{
+            _resizeCallback(this);
         },false);
         this.bindEvent();                                          
     }
@@ -47,31 +46,30 @@ class Range{
     }
 
     bindEvent(){
-        let self = this; 
-        this.slider.on('mousedown', function(){      //启动拖动
-            self.isHold = true;
+        this.slider.on('mousedown', event =>{      //启动拖动
+            this.isHold = true;
         });
 
-        $q("body").on('mouseup', function(){     //释放拖动
-            self.isHold = false;
+        $q("body").on('mouseup', event =>{     //释放拖动
+            this.isHold = false;
         });
 
-        this.workRange.on('mousemove', function(e){    //监听拖动光标
-            if(!self.isHold) return;
-            let progress = _calculate(e.clientX);
+        this.workRange.on('mousemove', event =>{    //监听拖动光标
+            if(!this.isHold) return;
+            let progress = _calculate(event.clientX);
             if(progress >= 1){
                 progress = 1;
             }else if(progress<=0){
                 progress = 0;
             }
-            self.toPos(progress*100);
-            self.callBack(progress);
+            this.toPos(progress*100);
+            this.callBack(progress);
         });
 
-        this.container.on('click',function (e) {   //监听点击进度条
-            let progress = _calculate(e.clientX);
-            self.toPos(progress*100);
-            self.callBack(progress);
+        this.container.on('click', event => {   //监听点击进度条
+            let progress = _calculate(event.clientX);
+            this.toPos(progress*100);
+            this.callBack(progress);
         });
         
     }
