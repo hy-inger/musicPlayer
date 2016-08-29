@@ -67,9 +67,12 @@ $q(".slider").on('mousedown', function(){
 });
 
 
-$q(".progress-container").on('mouseup', function(){
+$q('body').on('mouseup', function(){
     isHold = false;
 });
+
+
+
 
 $q(".player-control-bar").on('mousemove', function(e){
     if(!isHold) return;
