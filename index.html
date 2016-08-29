@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title></title>
         <meta name="referrer" content="never">
-        <link rel="stylesheet" type="text/css" href="./build/main.css"/>
+        <!-- <link rel="stylesheet" type="text/css" href="./build/main.css"/> -->
         <!--使用该方法加载dev-server模块不会自动生成json文件-->
         <!-- <script src="http://localhost/webpack-dev-server.js"></script> -->
         <!--sublime text 3 livereload-->
@@ -38,10 +38,12 @@
                 <button class="next-btn" type="button" name="next" changebtn action-type="next"></button>
                 <span id="current-time"></span>
                 <div class="progress-container">
-                    <input  class="time-line" type="range" name="progress" max="1000" min="0" value="0" >
-                    <span class="played-progress"></span>
+                    <div  class="time-line"></div>
+                    <div class="played-progress">
+                        <div class="slider"></div>
+                    </div>
+
                 </div>
-                
                 <span id="duration"></span>
             </div>
             <ul class="song-list unstyle"></ul>

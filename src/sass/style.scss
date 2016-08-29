@@ -50,7 +50,7 @@ body{
         height: 23px;
         background: transparent;
         position: relative;
-        margin-top: 20px;
+        margin: 20px 0.5%;
         padding: 0;
         display: inline-block;
         outline: none;
@@ -65,6 +65,8 @@ body{
             border-style: solid;
             position: absolute;
         }
+
+
         &.prev-btn {
             margin-left: 10px;
             border-width: 0 0 0 2px ;
@@ -133,51 +135,54 @@ body{
             top: 8px;
         }
     }
+
+    span {
+        color: #D7DFE7;
+    }
     
 }
 
 .progress-container {
     display: inline-block;
-    width: 50%;
-    position:relative;
+    position: relative;
+    width: 40%;
+    height: 8px;
 }
 
 .time-line {
-        /*removes default webkit styles*/ 
-    -webkit-appearance: none;
-        
-        /*fix for FF unable to apply focus style bug */
-    border: 1px solid white;
-        
-        /*required for proper track sizing in FF*/
     width: 100%;
+    border-radius: 5px;
+    height: 8px;
+    background: #a7a4a4;
     position: absolute;
-    top: -10px;
-    border-radius: 5px;
 }
-.time-line::-webkit-slider-runnable-track {
-    width: 50%;
-    height: 5px;
-    background: #ddd;
-    border: none;
-    border-radius: 5px;
-}
-.time-line::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 14px;
-    width: 14px;
-    border-radius: 50%;
-    border: 3px solid white;
+
+.played-progress {
+    width:100%;
+    height: 8px;
+    display: inline-block;
     background: red;
-    margin-top: -4px;
-    z-index: 1000;
+    border-radius: 5px;
+    position: absolute;
 }
 
-
-.time-line:focus {
-    outline: none;
+.slider {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 5px solid #efefef;
+  background: red;
+  display: inline-block;
+  float: right;
+  transform: translate(9px, -6px);
+  &:hover {
+    box-shadow: 0 0 6px 1px white;
+  }
 }
+
+    
+
+   
 
 /*lrc*/
 .lrc-container{
@@ -234,21 +239,10 @@ body{
     }
 }    
 
-.time-line:focus::-webkit-slider-runnable-track {
-    background: #ccc;
-}    
+ 
+   
 
-.played-progress {
-    background: red;
-    position:absolute;
-    display: inline-block;
-    width: 0%;
-    height: 5px;
-    position: absolute;
-    left: 3px;
-    top: -7px;
-    border-radius: 5px
-}    
+
 
 
 
