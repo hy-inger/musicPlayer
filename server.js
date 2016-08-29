@@ -9,13 +9,13 @@ const BaiduApi = {
     baseUrl:"http://tingapi.ting.baidu.com/v1/restserver/ting",
     search:"?method=baidu.ting.search.catalogSug&query=",
     play:"?method=baidu.ting.song.play&"
-}
+};
 // 通用配置
 const Qs = {
     format:"json",
     from:"webapp_music",
     calback:"",
-}
+};
 
 // 设置允许跨域
 app.use(cors());
@@ -23,7 +23,7 @@ app.use(cors());
 app.get('/search', function(req, res) {
     var qs = {};
     Object.assign(qs,Qs);
-    qs.format = Qs.format
+    qs.format = Qs.format;
     qs.method = "baidu.ting.search.catalogSug";
     qs.query = req.query.query;
     rp({
@@ -50,22 +50,39 @@ app.get('/search', function(req, res) {
         })
         .then(function (data) {
             console.log("----------get music ---------");
-            res.send(JSON.parse(data))
-        })
+            res.send(JSON.parse(data));
+        });
     })
     .catch(function (err) {
         console.log(err);
         // Crawling failed...
     });
 });
+
+// 根据歌曲ID获取歌词
+app.get("/lrc",function(req,res){
+    let songId = req.query.songId;
+    let qs = {};
+    Object.assign(qs,Qs);
+    qs.format = Qs.format;
+    qs.method = "baidu.ting.song.lry";
+    qs.songid=songId;
+    rp({
+        uri:BaiduApi.baseUrl,
+        qs:qs
+    }).then(function(data){
+        res.send(data);
+    });
+});
+
 // 获取歌曲实际数据后返回给前端
 app.get('/proxy', function(req, res) {
     var uri = req.query.url;
-    req.pipe(request(uri)).pipe(res)
+    req.pipe(request(uri)).pipe(res);
 });
 app.get('/', function(req, res) {
   res.send('hello world');
 });
 
 
-app.listen(4000,function(){console.log("------------server start---------------");})
+app.listen(4000,function(){console.log("------------server start---------------");});

@@ -99,7 +99,7 @@ class MyAudio {
             loop:this.audio.loop,
             startTime:this.audio.startTime,
             duration:this.audio.duration
-        }
+        };
     }
     // 播放
     play(){
@@ -138,33 +138,12 @@ class MyAudio {
         if (typeof music === 'undefined') {
             return this;
         }
-        if (!this.musicList.includes(music)) {
-            this.musicList.push(music)
-            this.index = this.musicList.length - 1;
-        }else {
-            this.index = this.musicList.indexOf(music)
-        }
-        this.musicList.forEach((mus)=>{
-            $q(mus.dom).removeClass("active");
-        });
-        $q(music.dom).addClass("active");
-        // 通过后台代理并将二进制转成blob播放
-        // fetch("http://localhost:4000/proxy?url="+music.info.songLink)
-        // .then((res)=>{
-        //     var result = res.blob()
-        //     console.log(result);
-        //     return result
-        // })
-        // .then((data)=>{
-        //     this.audio.src = window.URL.createObjectURL(data);
-        //     this.play();
-        // })
         this.audio.src = music.info.songLink;
         console.log(music.info.songName);
         this.play();
         return this;
     }
-    // 下一首音乐,返回this,可进行链式调用
+    // 下一首音乐,暴露回调接口进行下一步操作,返回this,可进行链式调用
     next(){
         if (this.cfg.playMod === "order") {
             // 顺序播放
@@ -177,10 +156,10 @@ class MyAudio {
             this.index = parseInt(Math.random()*this.musicList.length,10);
         }
         var music = this.musicList[this.index];
-        this.load(this.musicList[this.index])
-        return this;
+        this.load(music);
+        return music;
     }
-    // 上一首音乐,返回this,可进行链式调用
+    // 上一首音乐,暴露回调接口进行下一步操作,返回this,可进行链式调用
     prev(){
         if (this.cfg.playMod === "order") {
             // 顺序播放
@@ -193,8 +172,8 @@ class MyAudio {
             this.index = parseInt(Math.random()*this.musicList.length,10);
         }
         var music = this.musicList[this.index];
-        this.load(this.musicList[this.index])
-        return this;
+        this.load(music);
+        return music;
     }
 
 }
