@@ -1,5 +1,6 @@
 require("./sass/style.scss");
 // require("../index.html");
+var Range = require("./js/range.js");
 var { Store, Dispatch } = require("./js/ctrl.js");
 window.player = Store.state.player;
 Dispatch("SEARCH", "陈奕迅", function(musicList) {
@@ -40,51 +41,19 @@ $q("#player").on("pause", function() {
 //     // console.log(this.duration);
 // });
 
+var songProgress = new Range('song-progress', 'tool-bar', function(progress){
+    $q("#player")[0].currentTime = parseInt($q("#player")[0].duration*progress);
+});
+
 $q("#player").on('timeupdate', function(){
     var progress = (this.currentTime/this.duration)*100;
-    $q(".played-progress").css('width',progress+'%');
-    // $q("#current-time").text(parseInt(this.currentTime));
-});
-
-var clickPos = (function(){
-    var length = $q(".progress-container")[0].offsetWidth,
-        left = $q(".progress-container")[0].offsetLeft;
-    return function(pos){
-        return (pos-left)/length;
-    }
-})();
-
-$q(".progress-container").on('click',function (e) {
-    var progress = clickPos(e.clientX);
-    $q("#player")[0].currentTime = parseInt($q("#player")[0].duration*progress);
-    $q(".played-progress").css('width',progress*100+'%');
-});
-
-var isHold = false;
-
-$q(".slider").on('mousedown', function(){
-    isHold = true;
-});
-
-
-$q('body').on('mouseup', function(){
-    isHold = false;
+    songProgress.toPos(progress);
 });
 
 
 
 
-$q(".player-control-bar").on('mousemove', function(e){
-    if(!isHold) return;
-    var progress = clickPos(e.clientX);
-    if(progress >= 1){
-        progress = 1;
-    }else if(progress<=0){
-        progress = 0;
-    }
-    $q("#player")[0].currentTime = parseInt($q("#player")[0].duration*progress);
-    $q(".played-progress").css('width',progress*100+'%');
-});
+
 
 
 // 根据获取的音乐数据构造音乐列表

@@ -32,18 +32,12 @@
                 </table>
             </section>
             <!-- 控制器 -->
-            <div class="player-control-bar">
+            <div id='tool-bar' class="player-control-bar">
                 <button class="prev-btn" type="button" name="prev" changebtn action-type="prev"></button>
                 <button class="play-btn" type="button" name="play" data-status='play'></button>
                 <button class="next-btn" type="button" name="next" changebtn action-type="next"></button>
                 <span id="current-time"></span>
-                <div class="progress-container">
-                    <div  class="time-line"></div>
-                    <div class="played-progress">
-                        <div class="slider"></div>
-                    </div>
-
-                </div>
+                <div id="song-progress" ></div>
                 <span id="duration"></span>
             </div>
             <ul class="song-list unstyle"></ul>
