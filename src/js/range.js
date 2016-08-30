@@ -1,10 +1,10 @@
 require("expose?$q!./query.js");
 
 
-let _calculate = null;           //该函数计算出每次操作得出的0到100之间的数值
-let _resizeCallback = function(range){   //当屏幕变化，dom的位置和大小也会有变化
-    _calculate = null;
-    _calculate = (function(){        //为避免反复访问dom的属性，使用闭包缓存该属性
+
+let _resizeCallback = function(range){   //为Range动态生成_calculate函数,当屏幕变化，dom的位置和大小也会有变化
+    range._calculate = null;
+    range._calculate = (function(){        //为避免反复访问dom的属性，使用闭包缓存该属性
         let length = range.container[0].offsetWidth;
         let left = range.container[0].offsetLeft;
         return function(pos){   
@@ -14,7 +14,7 @@ let _resizeCallback = function(range){   //当屏幕变化，dom的位置和大�
 } ;
   
 class Range{
-    constructor(containerId, workRnageId, callBack){  
+    constructor(containerId, workRnageId, callBack, pos){  
         this.container = typeof containerId == 'string' ? $q("#" + containerId) : null; //进度条容器
         if(!this.container) return false;
         this.workRange = $q("#" + workRnageId) ? $q("#" + workRnageId) : $("body");  //鼠标滑动生效范围
@@ -23,17 +23,18 @@ class Range{
         this.palyedProgress = null ;    //已走进度dom引用
         this.slider = null;      //滑动光标dom引用
         this.isHold = false;
+        this._calculate = null;       //该函数计算出每次操作得出的0到100之间的数值
         this.callBack = callBack;   //数值改变后的回调函数
-        this.init(containerId);  
+        this.init(containerId, pos);  
         _resizeCallback.bind(this);                                                    
     }
 
-    init(containerId){    //初始化dom元素引用以及各项设置
-        this.container.addClass('progress-container').html(' <div  class="time-line"></div><div class="played-progress"><div class="slider"></div></div>');
-        this.timeLine = $q("#" + containerId + " .time-line");
-        this.palyedProgress = $q("#" + containerId + " .played-progress ") ;
-        this.slider = $q("#" + containerId + " .slider");
-        
+    init(containerId, pos){    //初始化dom元素引用以及各项设置
+        this.container.addClass('progress-container').html(' <div class="time-line"></div><div class="played-progress"><div class="slider"></div></div>');
+        this.timeLine = this.container.find(".time-line");
+        this.palyedProgress = this.container.find( ".played-progress ") ;
+        this.slider = this.container.find(".slider");
+        pos && this.toPos(pos);
         _resizeCallback(this);
         window.addEventListener('resize', event =>{
             _resizeCallback(this);
@@ -56,7 +57,7 @@ class Range{
 
         this.workRange.on('mousemove', event =>{    //监听拖动光标
             if(!this.isHold) return;
-            let progress = _calculate(event.clientX);
+            let progress = this._calculate(event.clientX);
             if(progress >= 1){
                 progress = 1;
             }else if(progress<=0){
@@ -67,7 +68,7 @@ class Range{
         });
 
         this.container.on('click', event => {   //监听点击进度条
-            let progress = _calculate(event.clientX);
+            let progress = this._calculate(event.clientX);
             this.toPos(progress*100);
             this.callBack(progress);
         });

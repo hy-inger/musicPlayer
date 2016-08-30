@@ -35,24 +35,35 @@ $q("#search-btn").on('click', function(event) {
 });
 
 $q("#player").on("pause", function() {
-    $q("button[name='play']").removeClass("pause-btn").addClass("play-btn");
+    $q("button[name='play']").removeClass("icon-pause").addClass("icon-play2");
 }).on("play", function() {
-    $q("button[name='play']").removeClass("play-btn").addClass("pause-btn");
+    $q("button[name='play']").removeClass("icon-play2").addClass("icon-pause");
 });
 
-// $q("#player").on('durationchange', function(){
-//     $q("#duration").text(parseInt(this.duration));
-//     // console.log(this.duration);
-// });
 
-var songProgress = new Range('song-progress', 'tool-bar', function(progress){
+var songRange = new Range('song-range', 'tool-bar', function(progress){
     $q("#player")[0].currentTime = parseInt($q("#player")[0].duration*progress);
 });
 
 $q("#player").on('timeupdate', function(){
+    $q('#current-time').text(timeFilter(this.currentTime));
     var progress = (this.currentTime/this.duration)*100;
-    songProgress.toPos(progress);
+    songRange.toPos(progress);
 });
+
+var volRange = new Range('vol-range', 'tool-bar', function(progress){
+    Dispatch("CHANGE_VOLUME", parseInt(progress*100));
+    if(progress == 0){
+        $q('#vol-icon').removeClass().addClass('icon-volume-mute2');
+    }else if (progress > 0 && progress <= 0.3) {
+        $q('#vol-icon').removeClass().addClass('icon-volume-low');
+    }else if (progress > 0.3 && progress <= 0.7) {
+        $q('#vol-icon').removeClass().addClass('icon-volume-medium');
+    }else if (progress > 0.7 ) {
+        $q('#vol-icon').removeClass().addClass('icon-volume-high');
+    }
+}, 100);
+
 
 
 
@@ -119,6 +130,10 @@ function createMusicDom(music){
  * @return {[type]}       [description]
  */
 function playMusic(music){
+    $q('#duration').text(timeFilter(music.info.time));
+    $q('.song-name').text(music.info.songName);
+    $q('.singer-name').text(music.info.artistName);
+    $q('.music-icon')[0].src = music.info.songPicRadio;
     $q('.song-list li').removeClass('active');
     $q(music.dom).addClass('active');
     var songId = music.info.songId;
@@ -129,5 +144,14 @@ function playMusic(music){
     .then((lrc)=>{
         console.log(lrc);
     });
+}
+
+function timeFilter(time) {
+    var t = Number(time);
+    var mins = parseInt(t/60),
+        secs = parseInt(t%60);
+    mins = mins>=10 ? mins : '0' + mins;
+    secs = secs>=10 ? secs : '0' + secs;
+    return   mins + ':' + secs; 
 }
 
