@@ -2,7 +2,11 @@ require("./sass/style.scss");
 // require("../index.html");
 var Range = require("./js/range.js");
 var { Store, Dispatch } = require("./js/ctrl.js");
-window.player = Store.state.player;
+window.player = Store.state.player;  // 仅提供给控制台查看对象
+// 配置播放器
+Dispatch('SET_CONFIG',{
+    ended:playMusic
+});
 Dispatch("SEARCH", "陈奕迅", function(musicList) {
     // 创建搜索列表
     createSearchList(musicList);
@@ -95,7 +99,7 @@ function createMusicDom(music){
     music.dom = dom;
     $q(dom).on('click', function(event) {
         event.preventDefault();
-        window.player.load(music);
+        Dispatch("LOAD_MUSIC",music,playMusic);
     });
     $q(dom).find(".rm").on('click', function(event) {
         event.stopPropagation();

@@ -9,9 +9,9 @@ let _resizeCallback = function(range){   //当屏幕变化，dom的位置和大�
         let left = range.container[0].offsetLeft;
         return function(pos){   
             return (pos-left)/length;
-        } 
+        } ;
     })();       
-} 
+} ;
   
 class Range{
     constructor(containerId, workRnageId, callBack){  
