@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title></title>
         <meta name="referrer" content="never">
+        <link rel="stylesheet" href="./src/css/style.css"></head>
         <!-- <link rel="stylesheet" type="text/css" href="./build/main.css"/> -->
         <!--使用该方法加载dev-server模块不会自动生成json文件-->
         <!-- <script src="http://localhost/webpack-dev-server.js"></script> -->
@@ -33,12 +34,22 @@
             </section>
             <!-- 控制器 -->
             <div id='tool-bar' class="player-control-bar">
-                <button class="prev-btn" type="button" name="prev" changebtn action-type="prev"></button>
-                <button class="play-btn" type="button" name="play" data-status='play'></button>
-                <button class="next-btn" type="button" name="next" changebtn action-type="next"></button>
-                <span id="current-time"></span>
-                <div id="song-progress" ></div>
-                <span id="duration"></span>
+                <div id="song-info">
+                    <img src="http://musicdata.baidu.com/data2/pic/88653173/88653173.jpg"  class="music-icon">
+                    <p class="song-name">陪你度过忙长岁月</p>
+                    <p class="singer-name">dsfsd</p>
+                </div>
+                <button class="prev-btn icon-previous" type="button" name="prev" changebtn action-type="prev"></button>
+                <button class="play-btn icon-play2" type="button" name="play" data-status='play'></button>
+                <button class="next-btn icon-next" type="button" name="next" changebtn action-type="next"></button>
+                
+                <div id="song-range" ></div>
+                <div id="time-display">
+                    <span id="current-time">00:00</span>/
+                    <span id="duration">00:00</span>
+                </div>
+                <span id="vol-icon" class="icon-volume-high"></span>
+                <div id="vol-range"></div>
             </div>
             <ul class="song-list unstyle"></ul>
         </main>

@@ -208,13 +208,21 @@ class MyQueryDom extends Array{
      * 去掉某个类名
      */
     removeClass(className) {
-        this.forEach(ele => {
-            if (ele.classList) {
-                ele.classList.remove(className);
-            } else {
-                ele.className = ele.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-            }
-        });
+        if(className){
+            this.forEach(ele => {
+                if (ele.classList) {
+                    ele.classList.remove(className);
+                } else {
+                    ele.className = ele.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+                }
+            });
+        }else {
+            this.forEach(ele => {
+                ele.className = '';
+            });
+            
+        }
+        
         return this;
     }
     /**
