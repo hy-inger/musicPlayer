@@ -28,16 +28,19 @@ class MyAudio {
             ended:function(){}, // 结束回调
             play:function(){}, // 播放时候回调
             progress:function(){}, // 缓冲时事件
+            next:function(){}, // 自动切换下一首时回调
             playMod :"order"  // 播放类型,
         };
         // 配置,播放回调,播放结束回调
         this.cfg = Object.assign(defaultCfg,cfg);
         this.audio.addEventListener("ended",()=>{
             if (!this.audio.loop) {
-                // 只要不是单曲循环,都会执行下一首操作.
-                this.next();
+                if(!(this.cfg.playMod === 'list' && this.index === this.musicList.length - 1)){
+                    // 只要不是单曲循环或者顺序播放最后一首,都会执行下一首操作.
+                    this.next();
+                    this.cfg.ended(this.musicList[this.index]);
+                }
             }
-            this.cfg.ended();
         });
         this.audio.addEventListener("play",this.cfg.play);
         // this.audio.addEventListener("loadstart",(e)=>{
@@ -145,7 +148,8 @@ class MyAudio {
     }
     // 下一首音乐,暴露回调接口进行下一步操作,返回this,可进行链式调用
     next(){
-        if (this.cfg.playMod === "order") {
+        var playMod = this.cfg.playMod;
+        if (playMod === "order" || playMod === 'list') {
             // 顺序播放
             this.index++;
             if (this.index >= this.musicList.length) {
@@ -161,7 +165,8 @@ class MyAudio {
     }
     // 上一首音乐,暴露回调接口进行下一步操作,返回this,可进行链式调用
     prev(){
-        if (this.cfg.playMod === "order") {
+         var playMod = this.cfg.playMod;
+        if (playMod === "order" || playMod === 'list') {
             // 顺序播放
             this.index--;
             if (this.index < 0) {

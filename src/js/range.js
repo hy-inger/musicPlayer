@@ -9,9 +9,9 @@ let _resizeCallback = function(range){   //为Range动态生成_calculate函数,
         let left = range.container[0].offsetLeft;
         return function(pos){   
             return (pos-left)/length;
-        } 
+        } ;
     })();       
-} 
+} ;
   
 class Range{
     constructor(containerId, workRnageId, callBack, pos){  

@@ -15,6 +15,9 @@ var Store = {
     },
     // 相应的操作事件
     mou: {
+        SET_CONFIG(state,cfg){
+            Object.assign(state.player.cfg,cfg);
+        },
         // 播放
         PLAY(state) {
             state.player.play();
@@ -111,6 +114,7 @@ var Store = {
         // order : 顺序播放
         // range : 随机播放
         // loop : 单曲循环
+        // list : 列表播放
         CHANGE_PLAY_MOD(state, mod) {
             if (mod === 'loop') {
                 state.player.audio.loop = true;
