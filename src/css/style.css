@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../../static/fonts/icomoon.eot');
-  src:  url('../../static/fonts/icomoon.eot') format('embedded-opentype'),
-    url('../../static/fonts/icomoon.ttf') format('truetype'),
-    url('../../static/fonts/icomoon.woff') format('woff'),
-    url('../../static/fonts/icomoon.svg') format('svg');
+  src:  url('../../static/fonts/icomoon.eot?3aw8xb');
+  src:  url('../../static/fonts/icomoon.eot?3aw8xb#iefix') format('embedded-opentype'),
+    url('../../static/fonts/icomoon.ttf?3aw8xb') format('truetype'),
+    url('../../static/fonts/icomoon.woff?3aw8xb') format('woff'),
+    url('../../static/fonts/icomoon.svg?3aw8xb#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,26 +24,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-loop3:before {
+  content: "\e900";
+}
+.icon-loop2:before {
+  content: "\e901";
+}
 .icon-play2:before {
   content: "\ea15";
 }
 .icon-pause:before {
   content: "\ea16";
 }
-.icon-stop:before {
-  content: "\ea17";
-}
 .icon-previous:before {
   content: "\ea18";
 }
 .icon-next:before {
   content: "\ea19";
-}
-.icon-first:before {
-  content: "\ea21";
-}
-.icon-last:before {
-  content: "\ea22";
 }
 .icon-volume-high:before {
   content: "\ea26";
@@ -55,18 +52,12 @@
   content: "\ea28";
 }
 .icon-volume-mute:before {
-  content: "\ea29";
-}
-.icon-volume-mute2:before {
   content: "\ea2a";
 }
-.icon-loop:before {
+.icon-loop1:before {
   content: "\ea2d";
 }
-.icon-loop2:before {
-  content: "\ea2e";
-}
-.icon-shuffle:before {
+.icon-loop4:before {
   content: "\ea30";
 }
 
