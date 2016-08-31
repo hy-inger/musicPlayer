@@ -120,8 +120,8 @@ var Store = {
                 state.player.audio.loop = true;
             } else {
                 state.player.audio.loop = false;
-                state.player.cfg.playMod = mod;
             }
+            state.player.cfg.playMod = mod;
         },
         // 获取当前播放列表
         // 返回 Array.
