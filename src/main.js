@@ -54,7 +54,7 @@ $q("#player").on('timeupdate', function(){
 var volRange = new Range('vol-range', 'tool-bar', function(progress){
     Dispatch("CHANGE_VOLUME", parseInt(progress*100));
     if(progress == 0){
-        $q('#vol-icon').removeClass().addClass('icon-volume-mute2');
+        $q('#vol-icon').removeClass().addClass('icon-volume-mute');
     }else if (progress > 0 && progress <= 0.3) {
         $q('#vol-icon').removeClass().addClass('icon-volume-low');
     }else if (progress > 0.3 && progress <= 0.7) {
@@ -64,11 +64,32 @@ var volRange = new Range('vol-range', 'tool-bar', function(progress){
     }
 }, 100);
 
+$q("#loop-ctrl").on('click', function(){
+    var loopNum = $q(this).data('loop');
+    if(++loopNum > 4) loopNum = 1;
+    $q(this).removeClass().addClass('icon-loop'+loopNum);
+    $q(this).data('loop', loopNum);
+    switch(loopNum) {
+        case 1:
+          Dispatch("CHANGE_PLAY_MOD", "order");
+          $q("#loop-mod").text('列表循环');
+          break;
+        case 2:
+          Dispatch("CHANGE_PLAY_MOD", "loop");
+          $q("#loop-mod").text('单曲循环');
+          break;
+        case 3:
+          Dispatch("CHANGE_PLAY_MOD", "list");
+          $q("#loop-mod").text('顺序播放');
+          break;
+        case 4:
+          Dispatch("CHANGE_PLAY_MOD", "range");
+          $q("#loop-mod").text('随机播放');
+          break;
+    }
 
 
-
-
-
+});
 
 
 // 根据获取的音乐数据构造音乐列表
@@ -131,8 +152,8 @@ function createMusicDom(music){
  */
 function playMusic(music){
     $q('#duration').text(timeFilter(music.info.time));
-    $q('.song-name').text(music.info.songName);
-    $q('.singer-name').text(music.info.artistName);
+    $q('.song-name').text(music.info.songName)[0].setAttribute('title', music.info.songName);
+    $q('.singer-name').text(music.info.artistName)[0].setAttribute('title', music.info.artistName);
     $q('.music-icon')[0].src = music.info.songPicRadio;
     $q('.song-list li').removeClass('active');
     $q(music.dom).addClass('active');
