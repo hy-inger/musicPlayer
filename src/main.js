@@ -91,6 +91,19 @@ $q("#loop-ctrl").on('click', function(){
 
 });
 
+$q(".list-show").on('click', function(){
+    $q(this).css('display', 'none');
+    $q("#song-list").css('display', 'inline-block');
+    $q(".list-hide").css('display', 'inline-block');
+});
+$q(".list-hide").on('click', function(){
+    $q(this).css('display', 'none');
+    $q("#song-list").css('display', 'none');
+    $q(".list-show").css('display', 'inline-block');
+})
+
+
+
 
 // 根据获取的音乐数据构造音乐列表
 function createSearchList(musicList) {
@@ -125,8 +138,9 @@ function createSearchList(musicList) {
 
 // 为新加入到播放列表的音乐创建和绑定dom
 function createMusicDom(music){
-    var index = $q(".song-list li").length;
-    var li = `<li><span>${index}</span><span>${music.info.songName}</span><i class="rm">x</i></li>`;
+    var index = $q(".song-list li").length+1;
+    var time = timeFilter(music.info.time);
+    var li = `<li><span class="index">${index}</span><span class="song-name">${music.info.songName}</span><span class="singer-name">${music.info.artistName}</span><span class="time">${time}</span><i class="rm "></i></li>`;
     var dom = $q.parseHTML(li);
     music.dom = dom;
     $q(dom).on('click', function(event) {
@@ -152,9 +166,14 @@ function createMusicDom(music){
  */
 function playMusic(music){
     $q('#duration').text(timeFilter(music.info.time));
-    $q('.song-name').text(music.info.songName)[0].setAttribute('title', music.info.songName);
-    $q('.singer-name').text(music.info.artistName)[0].setAttribute('title', music.info.artistName);
-    $q('.music-icon')[0].src = music.info.songPicRadio;
+    $q('#song-info .song-name').text(music.info.songName)[0].setAttribute('title', music.info.songName);
+    $q('#song-info .singer-name').text(music.info.artistName)[0].setAttribute('title', music.info.artistName);
+    $q('.music-icon')[0].src = music.info.songPicSmall;
+    $q('.music-icon').on('load', function(){
+        $q('#dynamic-bg').css('background', 'url('+music.info.songPicSmall+') 50% 50% / cover no-repeat');
+    })
+    // dynamicBg.changeBg(music.info.songPicRadio);
+    
     $q('.song-list li').removeClass('active');
     $q(music.dom).addClass('active');
     var songId = music.info.songId;
