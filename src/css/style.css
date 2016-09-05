@@ -30,7 +30,13 @@
 .icon-loop2:before {
   content: "\e901";
 }
-.icon-play2:before {
+.icon-menu-off:before {
+  content: "\e9bf";
+}
+.icon-menu-on:before {
+  content: "\e9c0";
+}
+.icon-play:before {
   content: "\ea15";
 }
 .icon-pause:before {
@@ -60,4 +66,3 @@
 .icon-loop4:before {
   content: "\ea30";
 }
-
