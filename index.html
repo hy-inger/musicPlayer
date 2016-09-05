@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="font-size: 100px;">
     <head>
         <meta charset="utf-8">
         <title></title>
@@ -15,6 +15,20 @@
         <div id="dynamic-bg" ></div>
         <main class='player-container'>
             <audio id="player" src='http://file.qianqian.com//data2/music/42525724/42525724.mp3?xcode=c501e8c8e6f92695c70098e904ce32a9&src="http%3A%2F%2Fpan.baidu.com%2Fshare%2Flink%3Fshareid%3D3998744624%26uk%3D4149459281' controls style='transform: translateX(-200%); position: absolute;'></audio>
+            <div style="width: 11.5rem; margin: 0 auto;">
+                <div id="cover-container">
+                    <img id="cover-img" src="http://musicdata.baidu.com/data2/pic/115994911/115994911.jpg">
+                    <img id="record-img" src="./static/img/record.png">
+                    <img id="tonearm-img" src="./static/img/tonearm.png" >
+                </div>
+
+                 <div class="lrc-container">
+                    <ul class="lrc-list scroll-up">
+                            
+                    </ul>
+                </div>
+            </div>
+            
             <section class="player-content">
                 <div class="search">
                     <input id="search-input" type="search" name="name" placeholder="输入歌曲名">
@@ -33,7 +47,10 @@
                     <tbody></tbody>
                 </table>
             </section>
-            <!-- 控制器 -->
+           
+            
+        </main>
+        <!-- 控制器 -->
             <div id='tool-bar' class="player-control-bar">
                 <div id="song-info">
                     <img src="http://musicdata.baidu.com/data2/pic/88653173/88653173.jpg"  class="music-icon">
@@ -59,8 +76,6 @@
                 <button style="display: none; margin-left: 3%; font-size: 24px" class="list-hide icon-menu-on" title="播放列表" type="button"></button>
                 
             </div>
-            
-        </main>
     <!-- <script type="text/javascript" src="./main.js"></script> -->
     <!-- <script type="text/javascript" src="./main.js"></script> -->
     <!-- <script src="/webpack-dev-server.js"></script> -->
