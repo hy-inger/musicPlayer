@@ -32,6 +32,7 @@ var Store = {
             fetch("http://localhost:4000/search?query=" + query, {
                 mod: "cors"
             }).then(res => res.json()).then(songList => {
+                console.log(songList)
                 callback(songList);
             });
         },

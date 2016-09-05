@@ -135,7 +135,7 @@ function createSearchList(musicList) {
             $q(this).addClass('active');
         });
     }else {
-        alert("暂无相关关键词信息")
+        alert("暂无相关关键词信息");
     }
 }
 

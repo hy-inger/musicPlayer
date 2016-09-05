@@ -39,17 +39,20 @@ app.get('/search', function(req, res) {
         // 将得到的歌曲id放进一个数组中
         var musArr = [];
         if (typeof song === 'undefined' || !song.length) {
-            res.send([]);
-            song = [];
+            throw new Error("no result");
+        }else {
+            song.forEach(function(mus){
+                musArr.push(mus.songid);
+            });
+            return musArr;
         }
-        song.forEach(function(mus){
-            musArr.push(mus.songid);
-        });
-        // 获取歌曲详细数据并返回
+    })
+    // 根据songId列表获取歌曲详细数据并返回
+    .then(function(songIdList){
         rp({
             uri:"http://music.baidu.com/data/music/links",
             qs:{
-                songIds:musArr.join(","),
+                songIds:songIdList.join(","),
             }
         })
         .then(function (data) {
@@ -57,8 +60,11 @@ app.get('/search', function(req, res) {
             res.send(JSON.parse(data).data.songList);
         });
     })
+    // 如果无搜索结果或者有异常则返回空数组
     .catch(function (err) {
+        console.error("出现异常了!!!!!!!!!!!!!!");
         console.log(err);
+        res.send([]);
         // Crawling failed...
     });
 });
