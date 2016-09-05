@@ -38,6 +38,10 @@ app.get('/search', function(req, res) {
     .then(function(song){
         // 将得到的歌曲id放进一个数组中
         var musArr = [];
+        if (typeof song === 'undefined' || !song.length) {
+            res.send([]);
+            song = [];
+        }
         song.forEach(function(mus){
             musArr.push(mus.songid);
         });
@@ -50,7 +54,7 @@ app.get('/search', function(req, res) {
         })
         .then(function (data) {
             console.log("----------get music ---------");
-            res.send(JSON.parse(data));
+            res.send(JSON.parse(data).data.songList);
         });
     })
     .catch(function (err) {

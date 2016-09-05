@@ -100,39 +100,43 @@ $q(".list-hide").on('click', function(){
     $q(this).css('display', 'none');
     $q("#song-list").css('display', 'none');
     $q(".list-show").css('display', 'inline-block');
-})
+});
 
 
 
 
 // 根据获取的音乐数据构造音乐列表
 function createSearchList(musicList) {
-    // 刷新当前搜索列表数据
-    Dispatch("REFRESH_SEARCH_LIST", musicList);
-    // 构造音乐列表,此处应提供回调函数给main.js调用.并且操作相应的dom元素
-    var tbody = "";
-    musicList.forEach((music, index) => {
-        tbody += `<tr data-index="${index}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${Math.floor(music.time/60)}:${Math.floor(music.time%60)}</td></tr>`;
-    });
-    $q(".search-list tbody").html(tbody);
-    // 搜索音乐列表双击播放事件
-    $q(".search-list tbody tr").on('dblclick', function(event) {
-        var index = $q(this).data("index");
-        // 从搜索列表中添加音乐到播放列表并播放
-        Dispatch("ADD_MUSIC", index, function(music) {
-            // 判断音乐是否已存在dom，存在dom说明是已经存在于播放列表当中，不存在dom则为新增歌曲
-            if(!music.dom){
-                // 添加并绑定dom
-                createMusicDom(music);
-            }
-            // 改变当前播放列表的active状态
-            Dispatch('LOAD_MUSIC',music,playMusic);
+    if (typeof musicList !== 'undefined' && musicList.length >0 ) {
+        // 刷新当前搜索列表数据
+        Dispatch("REFRESH_SEARCH_LIST", musicList);
+        // 构造音乐列表,此处应提供回调函数给main.js调用.并且操作相应的dom元素
+        var tbody = "";
+        musicList.forEach((music, index) => {
+            tbody += `<tr data-index="${index}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${Math.floor(music.time/60)}:${Math.floor(music.time%60)}</td></tr>`;
         });
-    }).on("click", function() {
-        $q(".search-list tbody tr").removeClass('active');
-        // 从搜索列表单击只能触发选中状态
-        $q(this).addClass('active');
-    });
+        $q(".search-list tbody").html(tbody);
+        // 搜索音乐列表双击播放事件
+        $q(".search-list tbody tr").on('dblclick', function(event) {
+            var index = $q(this).data("index");
+            // 从搜索列表中添加音乐到播放列表并播放
+            Dispatch("ADD_MUSIC", index, function(music) {
+                // 判断音乐是否已存在dom，存在dom说明是已经存在于播放列表当中，不存在dom则为新增歌曲
+                if(!music.dom){
+                    // 添加并绑定dom
+                    createMusicDom(music);
+                }
+                // 改变当前播放列表的active状态
+                Dispatch('LOAD_MUSIC',music,playMusic);
+            });
+        }).on("click", function() {
+            $q(".search-list tbody tr").removeClass('active');
+            // 从搜索列表单击只能触发选中状态
+            $q(this).addClass('active');
+        });
+    }else {
+        alert("暂无相关关键词信息")
+    }
 }
 
 
@@ -171,7 +175,7 @@ function playMusic(music){
     $q('.music-icon')[0].src = music.info.songPicSmall;
     $q('.music-icon').on('load', function(){
         $q('#dynamic-bg').css('background', 'url('+music.info.songPicSmall+') 50% 50% / cover no-repeat');
-    })
+    });
     // dynamicBg.changeBg(music.info.songPicRadio);
     
     $q('.song-list li').removeClass('active');

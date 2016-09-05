@@ -31,8 +31,8 @@ var Store = {
             // 向后台拉取搜索到的数据
             fetch("http://localhost:4000/search?query=" + query, {
                 mod: "cors"
-            }).then(res => res.json()).then(data => {
-                callback(data.data.songList);
+            }).then(res => res.json()).then(songList => {
+                callback(songList);
             });
         },
         // 刷新搜索列表,即将搜索的歌曲重新放入列表当中
