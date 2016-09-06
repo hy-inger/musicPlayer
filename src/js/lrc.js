@@ -9,7 +9,6 @@ class Lyric{
         this.top_num = 5;                                           // 当前歌词与顶部歌词距离多少句歌词
         
         this.init(lrc_list,lrc_content)                              // 初始化数据
-        
         lrc_list.on('click',e=>{                                  // 点击歌词事件，更新audio的currentTime
             let target = $q(e.target);
             if(target.hasClass('lyric')){
@@ -154,7 +153,7 @@ class Lyric{
                 total_height += this.lyric_height[i];
             }
             let scroll_end = total_height,
-                 scroll_interval = parseInt((total_height - scroll_top)/20);
+                 scroll_interval = parseInt((total_height - scroll_top)/10);
             if(index>this.top_num||(total_height - scroll_top)!=0){
                 this.requestAnimation((scroll_interval>=0&&scroll_interval<1)?1:scroll_interval,scroll_end);
             }
