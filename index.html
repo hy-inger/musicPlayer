@@ -17,8 +17,10 @@
             <audio id="player" src='http://file.qianqian.com//data2/music/42525724/42525724.mp3?xcode=c501e8c8e6f92695c70098e904ce32a9&src="http%3A%2F%2Fpan.baidu.com%2Fshare%2Flink%3Fshareid%3D3998744624%26uk%3D4149459281' controls style='transform: translateX(-200%); position: absolute;'></audio>
             <div style="width: 11.5rem; margin: 0 auto;">
                 <div id="cover-container">
-                    <img id="cover-img" src="http://musicdata.baidu.com/data2/pic/115994911/115994911.jpg">
-                    <img id="record-img" src="./static/img/record.png">
+                    <div id="circle" style="background: url(./static/img/record.png) 50% 50% / 99% no-repeat;">
+                        <img id="cover-img" src="http://musicdata.baidu.com/data2/pic/115994911/115994911.jpg">
+                        <img id="record-img" src="./static/img/record.png" style="display: none">
+                    </div>
                     <img id="tonearm-img" src="./static/img/tonearm.png" >
                 </div>
 
@@ -29,7 +31,7 @@
                 </div>
             </div>
             
-            <section class="player-content">
+            <section class="player-content" >
                 <div class="search">
                     <input id="search-input" type="search" name="name" placeholder="输入歌曲名">
                     <button id="search-btn" type="button" name="button">搜索</button>
