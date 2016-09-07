@@ -20,6 +20,7 @@ class Lyric{
     }
 
     init(lrc_list,lrc_content){
+        cancelAnimationFrame(this.req_timer);
         this.lrc_list = lrc_list.html('');                                       // 歌词列表
         this.lyric_li;                                                      // 歌词集合
         this.lyric_index = {};                                          // 存储歌词下标,以时间为key，下标为值，快速定位到当前li
@@ -28,6 +29,7 @@ class Lyric{
         this.req_timer = 0;
 
         this.lrc_container.scrollTop = 0;
+        console.log(this.lrc_container.scrollTop);
         this.lrc_list.css('top',0);
 
         this.parseLrc(lrc_content);
@@ -153,7 +155,7 @@ class Lyric{
                 total_height += this.lyric_height[i];
             }
             let scroll_end = total_height,
-                 scroll_interval = parseInt((total_height - scroll_top)/10);
+                 scroll_interval = parseInt((total_height - scroll_top)/20);
             if(index>this.top_num||(total_height - scroll_top)!=0){
                 this.requestAnimation((scroll_interval>=0&&scroll_interval<1)?1:scroll_interval,scroll_end);
             }
