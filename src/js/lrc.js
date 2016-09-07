@@ -164,7 +164,7 @@ class Lyric{
                 total_height += this.lyric_height[i];
             }
             let scroll_end = total_height,
-                 scroll_interval = parseInt((total_height - scroll_top)/20);
+                 scroll_interval = parseInt((total_height - scroll_top)/10);
             if(index>this.top_num||(total_height - scroll_top)!=0){
                 this.requestAnimation((scroll_interval>=0&&scroll_interval<1)?1:scroll_interval,scroll_end);
             }
@@ -192,7 +192,9 @@ class Lyric{
         } else {
             current_time = parseInt(drag_time);
         }
-        this.scrollTopLrc(current_time);
+        if(current_time>=0){
+            this.scrollTopLrc(current_time);
+        }
         //this.audio[0].currentTime = current_time;
     }
 }
