@@ -55,6 +55,7 @@ body{
     height: 100%;
     position: absolute;
     z-index: -100;
+    transform: translate3d(0,0,0);
     -webkit-filter: blur(80px);
        -moz-filter: blur(80px);
         -ms-filter: blur(80px);    
