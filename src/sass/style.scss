@@ -418,7 +418,7 @@ body{
         @include transition(top,.5s,linear);
         position: absolute;
         width: inherit;
-        .lyric{
+        .lyric,.unable-scroll-lyric{
             padding: .08rem .2rem;
             color: #313131;
             min-height: .3rem;
