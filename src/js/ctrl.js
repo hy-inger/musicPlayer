@@ -4,7 +4,7 @@
  * 不允许直接对播放器对象进行操作
  */
 var { MyAudio, Music } = require("./audio.js");
-require("expose?$q!./query.js");
+// require("expose?$q!./query.js");
 // 创建一首音乐并且将音乐与其dom关联.
 
 var Store = {
@@ -32,7 +32,7 @@ var Store = {
             fetch("http://localhost:4000/search?query=" + query, {
                 mod: "cors"
             }).then(res => res.json()).then(songList => {
-                console.log(songList)
+                console.log(songList);
                 callback(songList);
             });
         },
