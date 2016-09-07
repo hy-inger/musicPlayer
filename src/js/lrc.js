@@ -181,7 +181,7 @@ class Lyric{
         } else {
             current_time = drag_time;
         }
-        this.audio[0].currentTime = current_time;
+        // this.audio[0].currentTime = current_time;
     }
 }
 

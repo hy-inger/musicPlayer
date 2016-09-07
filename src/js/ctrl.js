@@ -180,7 +180,7 @@ var Dispatch = (function(store) {
      * 执行action操作,arg为参数
      */
     return function(action, ...arg) {
-        console.log("ACTION-------->>>", action);
+        // console.log("ACTION-------->>>", action);
         // 调用store中mou对应的action
         return store.mou[action](store.state, ...arg);
     };

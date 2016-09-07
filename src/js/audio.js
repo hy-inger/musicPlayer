@@ -143,7 +143,6 @@ class MyAudio {
         }
         this.audio.src = music.info.songLink;
         this.index = this.musicList.indexOf(music);
-        console.log(music.info.songName);
         this.play();
         return this;
     }

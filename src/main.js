@@ -81,6 +81,7 @@ var lyric = new Lyric(audio,lrc_list,lrc_container,lrc_content_2);
 var songRange = new Range('song-range', 'tool-bar', function(progress){
     $q("#player")[0].currentTime = parseInt($q("#player")[0].duration*progress);
     lyric.dragToLrc($q("#player")[0].currentTime);
+    // console.log(progress);
 });
 
 $q("#player").on('timeupdate', function(){
@@ -140,6 +141,10 @@ $q(".list-hide").on('click', function(){
     $q("#song-list").css('display', 'none');
     $q(".list-show").css('display', 'inline-block');
 });
+
+$q("#circle").on('animationend', function(){
+    $q(this).removeClass('fly-out').addClass('circle-rotate').data('isout', '');
+}); 
 
 
 
@@ -208,7 +213,9 @@ function createMusicDom(music){
  * @return {[type]}       [description]
  */
 function playMusic(music){
-    $q('#circle').removeClass().addClass('fly-out');
+    if(!$q('#circle').data('isout')){
+        $q('#circle').removeClass().addClass('fly-out').data('isout', true );
+    }
     $q('#duration').text(timeFilter(music.info.time));
     $q('#song-info .song-name').text(music.info.songName)[0].setAttribute('title', music.info.songName);
     $q('#song-info .singer-name').text(music.info.artistName)[0].setAttribute('title', music.info.artistName);
@@ -219,9 +226,6 @@ function playMusic(music){
     });
     setTimeout(function () {
          $q('#cover-img')[0].src = music.info.songPicRadio;
-         setTimeout(function(){
-            $q('#circle').removeClass('fly-out').addClass('circle-rotate');
-         }, 1450);
     }, 1250);
     $q('.song-list li').removeClass('active');
     $q(music.dom).addClass('active');
@@ -231,7 +235,6 @@ function playMusic(music){
     })
     .then((res)=>res.json())
     .then((lrc)=>{
-        console.log(lrc);
         lyric.init(lrc_list, lrc.lrcContent)
     });
 }
