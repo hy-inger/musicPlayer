@@ -30,7 +30,7 @@ window.player = Store.state.player;  // 仅提供给控制台查看对象
 Dispatch('SET_CONFIG',{
     ended:playMusic
 });
-Dispatch("SEARCH", "陈奕迅", function(musicList) {
+Dispatch("SEARCH", "东篱", function(musicList) {
     // 创建搜索列表
     createSearchList(musicList);
 });
