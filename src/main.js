@@ -220,9 +220,9 @@ function playMusic(music){
     }).on('error', function(){
         $q('.music-icon')[0].src = './static/img/logo.png';
     });
-    // setTimeout(function () {
-    //      $q('#cover-img')[0].src = music.info.songPicRadio;
-    // }, 1250);
+    setTimeout(function () {
+         $q('#cover-img')[0].src = music.info.songPicRadio;
+    }, 1250);
     $q('#cover-img').on('error', function(){
         this.src = './static/img/logo.png';
     });
