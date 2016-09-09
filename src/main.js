@@ -38,7 +38,9 @@ window.player = Store.state.player;  // 仅提供给控制台查看对象
         playMod:mod,
         ended:playMusic
     });
-    Dispatch("LOAD_MUSIC",Number.parseInt(index),playMusic);
+    if (musicList&&musicList.length !== 0) {
+        Dispatch("LOAD_MUSIC",Number.parseInt(index),playMusic);
+    }
 })();
 $q("button[name='play']").on('click', function(event) {
     event.preventDefault();
