@@ -163,6 +163,22 @@ $q("#search-input").on('focus', function(){
     $q(".search-result").removeClass('hide');
 });
 
+$q(".player-container").on('click', function(e){ 
+        $q('#song-list').css('display', 'none');
+        $q(".list-hide").css('display', 'none');
+        $q(".list-show").css('display', 'inline-block');
+});
+
+$q("body").on('keydown', function(e){
+    if((e.keyCode == 13) && $q("#search-input")[0] == document.activeElement){
+        var evt = document.createEvent("MouseEvents");
+        evt.initEvent("click",true,true);
+        $q("#search-btn")[0].dispatchEvent(evt);
+    }
+});
+
+
+
 
 
 
@@ -172,9 +188,10 @@ function createSearchList(musicList) {
     Dispatch("REFRESH_SEARCH_LIST", musicList);
     // 构造音乐列表,此处应提供回调函数给main.js调用.并且操作相应的dom元素
     var tbody = "";
+    console.log(musicList);
     musicList.forEach((music, index) => {
         var idx = index++;
-        tbody += `<tr data-index="${idx}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${Math.floor(music.time/60)}:${Math.floor(music.time%60)}</td></tr>`;
+        tbody += `<tr data-index="${idx}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${timeFilter(music.time)}</td></tr>`;
     });
     $q(".search-list tbody").html(tbody);
     // 搜索音乐列表双击播放事件
@@ -217,6 +234,7 @@ function createMusicDom(music){
         });
     });
      $q(".song-list")[0].appendChild(dom);
+
 }
 
 
