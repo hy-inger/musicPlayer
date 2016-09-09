@@ -13,6 +13,24 @@
     </head>
     <body style="background-position: cover;">
         <div id="dynamic-bg" ></div>
+        <div class="search-tool">
+            <input id="search-input" type="search" name="name" placeholder="输入歌曲名">        
+            <button id="search-btn" type="submit" name="button">搜索</button>
+        </div>
+        <section class="search-result hide">
+            <table class="search-list">
+                <thead>
+                    <tr>
+                        <th class="w-s first-th icon-cross"></th>
+                        <th class="w-l">歌名</th>
+                        <th class="w-m">歌手</th>
+                        <th class="w-l">专辑</th>
+                        <th class="w-s last-th">时长</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
         <main class='player-container'>
             <audio id="player" src='http://file.qianqian.com//data2/music/42525724/42525724.mp3?xcode=c501e8c8e6f92695c70098e904ce32a9&src="http%3A%2F%2Fpan.baidu.com%2Fshare%2Flink%3Fshareid%3D3998744624%26uk%3D4149459281' controls style='transform: translateX(-200%); position: absolute;'></audio>
             <div style="width: 11.5rem; margin: 0 auto;">
@@ -30,62 +48,43 @@
                 </div>
             </div>
             
-            <section class="player-content" >
-                <div class="search">
-                    <input id="search-input" type="search" name="name" placeholder="输入歌曲名">
-                    <button id="search-btn" type="button" name="button">搜索</button>
-                </div>
-                <table class="search-list unstyle">
-                    <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>歌名</th>
-                            <th>歌手</th>
-                            <th>专辑</th>
-                            <th>时长</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </section>
-           
             
         </main>
         <!-- 控制器 -->
-            <div id='tool-bar' class="player-control-bar">
-                <div id="song-info">
-                    <img src="http://musicdata.baidu.com/data2/pic/88653173/88653173.jpg"  class="music-icon">
-                    <div class="detail-info">
-                        <p class="song-name">陪你度过忙长岁月</p>
-                        <p class="singer-name">dsfsd</p>
-                    </div> 
+        <div id='tool-bar' class="player-control-bar">
+            <div id="song-info">
+                <img src="http://musicdata.baidu.com/data2/pic/88653173/88653173.jpg"  class="music-icon">        
+                <div class="detail-info">
+                    <p class="song-name">陪你度过忙长岁月</p>
+                    <p class="singer-name">dsfsd</p>
                 </div>
-                <div class="btn-group">
-                    <button class="prev-btn icon-previous" type="button" name="prev" changebtn action-type="prev"></button>
-                    <button class="play-btn icon-play" type="button" name="play" data-status='play'></button>
-                    <button class="next-btn icon-next" type="button" name="next" changebtn action-type="next"></button>   
-                </div>
-
-                <div id="progress">
-                    <div id="song-range" ></div>
-                    <div id="time-display">
-                        <span id="current-time">00:00</span>/
-                        <span id="duration">00:00</span>
-                    </div>
-                </div>
-                <div id="voice">
-                    <span id="vol-icon" class="icon-volume-high"></span>
-                    <div id="vol-range"></div>
-                </div>   
-                    
-                <div id="loop-ctrl" class="icon-loop1" data-loop="1" >
-                    <span id="loop-mod">列表循环</span>
-                </div>
-                <ul id="song-list" style="display: none;" class="song-list unstyle"></ul>
-                <button  class="list-show icon-menu-off" title="播放列表" type="button"></button>
-                <button style="display: none;" class="list-hide icon-menu-on" title="播放列表" type="button"></button>
-                
             </div>
+            <div class="btn-group">
+                <button class="prev-btn icon-previous" type="button" name="prev" changebtn action-type="prev"></button>
+                <button class="play-btn icon-play" type="button" name="play" data-status='play'></button>
+                <button class="next-btn icon-next" type="button" name="next" changebtn action-type="next"></button>
+            </div>
+
+            <div id="progress">
+                <div id="song-range" ></div>
+                <div id="time-display">
+                    <span id="current-time">00:00</span>
+                    /
+                    <span id="duration">00:00</span>
+                </div>
+            </div>
+            <div id="voice">
+                <span id="vol-icon" class="icon-volume-high"></span>
+                <div id="vol-range"></div>
+            </div>
+
+            <div id="loop-ctrl" class="icon-loop1" data-loop="1" >
+                <span id="loop-mod">列表循环</span>
+            </div>
+            <ul id="song-list" style="display: none;" class="song-list unstyle"></ul>
+            <button  class="list-show icon-menu-off" title="播放列表" type="button"></button>
+            <button style="display: none;" class="list-hide icon-menu-on" title="播放列表" type="button"></button>
+        </div>
     <!-- <script type="text/javascript" src="./main.js"></script> -->
     <!-- <script type="text/javascript" src="./main.js"></script> -->
     <!-- <script src="/webpack-dev-server.js"></script> -->

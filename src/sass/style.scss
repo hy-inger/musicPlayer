@@ -62,9 +62,79 @@ body{
             filter: blur(80px);
 }
 
-.player-container {
-    height: 100%;
-    background-image: radial-gradient(53% 66% at 25%, rgba(255, 255, 255, 0), rgba(255,255,255,0.5));
+
+
+.search-result {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    font-size: 0.15rem;
+    transition: opacity 1.3s ease, transform 1.3s ease;
+    &.hide {
+        opacity: 0;
+        transform: translate(-50%, -35%);
+        z-index: -500;
+    }
+    .search-list {
+        width: 7.9rem;
+        display: inline-block;
+        box-shadow: 1px 1px 26px 2px #888888;
+        border-radius: 4%;
+        color: #4E4E4E;
+        tr {
+            height: 0.4rem;
+        }
+        thead {
+            th {
+                border-right: 1px solid #888888;
+                border-bottom:1px solid #888888;
+                background: linear-gradient(to bottom, white, #CACACA);
+                text-indent: 5px;
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow:ellipsis;
+            }
+            .w-s {
+                width: 0.7rem;
+            }
+            .w-m {
+                width: 1.5rem;
+            }
+            .w-l {
+                width: 2.5rem;
+            }
+            .first-th {
+                border-radius: 50% 0 0 0;
+            }
+            .last-th {
+                border-radius: 0 50% 0 0;
+                border-right: 0
+            }
+        }
+
+        tbody {
+            tr{ 
+                td {
+                    text-indent: 5px;
+                    white-space:nowrap;
+                    overflow:hidden;
+                    text-overflow:ellipsis;         
+                }
+                &:nth-child(2n+1) td {
+                    background: #CACACA;
+                }
+                &:nth-child(2n) td{
+                    background: white;
+                }
+
+                &:hover td {
+                    background: #7D7D7D;
+                }
+                
+            }
+        }
+    }
 
 }
 
@@ -74,32 +144,7 @@ body{
 .clearfix{
     @include clearfix();
 }
-.unstyle {
-    margin:0px;
-    padding:0px;
-    p {
-        font-size: 10px;
-    }
-}
-.search-list {
-    display: block;
-    tr.active {
-        color:red;
-    }
-}
 
-
-
-.song-list {
-    .active {
-        color:blue;
-    }
-}
-
-#test {
-    display: flex;
-    border-radius: 1px;
-}
 
 
 

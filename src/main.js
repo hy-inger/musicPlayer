@@ -145,6 +145,14 @@ $q("#circle").on('animationend', function(){
     $q(this).removeClass('fly-out').addClass('circle-rotate').data('isout', '');
 }); 
 
+$q(".first-th").on('click', function(){
+    $q(".search-result").addClass('hide');
+});
+
+$q("#search-input").on('focus', function(){
+    $q(".search-result").removeClass('hide');
+});
+
 
 
 
@@ -155,7 +163,8 @@ function createSearchList(musicList) {
     // 构造音乐列表,此处应提供回调函数给main.js调用.并且操作相应的dom元素
     var tbody = "";
     musicList.forEach((music, index) => {
-        tbody += `<tr data-index="${index}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${Math.floor(music.time/60)}:${Math.floor(music.time%60)}</td></tr>`;
+        var idx = index++;
+        tbody += `<tr data-index="${idx}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${Math.floor(music.time/60)}:${Math.floor(music.time%60)}</td></tr>`;
     });
     $q(".search-list tbody").html(tbody);
     // 搜索音乐列表双击播放事件
@@ -176,6 +185,7 @@ function createSearchList(musicList) {
         // 从搜索列表单击只能触发选中状态
         $q(this).addClass('active');
     });
+     $q(".search-result").removeClass('hide');
 }
 
 
@@ -183,7 +193,7 @@ function createSearchList(musicList) {
 function createMusicDom(music){
     var index = $q(".song-list li").length+1;
     var time = timeFilter(music.info.time);
-    var li = `<li><span class="index">${index}</span><span class="song-name">${music.info.songName}</span><span class="singer-name">${music.info.artistName}</span><span class="time">${time}</span><i class="rm "></i></li>`;
+    var li = `<li><span class="index">${index}</span><span class="song-name">${music.info.songName}</span><span class="singer-name">${music.info.artistName}</span><span class="time">${time}</span><span class="rm icon-cross"></span></li>`;
     var dom = $q.parseHTML(li);
     music.dom = dom;
     $q(dom).on('click', function(event) {
