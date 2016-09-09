@@ -61,6 +61,7 @@ $q("#search-btn").on('click', function(event) {
     var val = $q("#search-input").val();
     // 分发搜索音乐事件
     Dispatch("SEARCH", val, function(musicList) {
+        console.log(musicList)
         createSearchList(musicList);
     });
 });

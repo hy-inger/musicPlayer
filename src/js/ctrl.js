@@ -53,7 +53,8 @@ var Store = {
         /**
          * 播放音乐,并将音乐通过回调传递
          * @param {[Object]}   state    [状态]
-         * @param {[Music|String]}   music    音乐对象或者'next'和'prev'字符串,代表上一首或者下一首
+         * @param {[Music|String]}   music    音乐对象或者'next'和'prev'字符串,代表上一首或者下一首,
+         *                                                                如果为number.则代表播放第index首
          * @param {Function} callback [执行回调,参数musci]
          */
         LOAD_MUSIC(state, music, callback) {
