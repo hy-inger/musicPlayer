@@ -117,6 +117,12 @@ var Store = {
         },
         // 播放进度,0-100整数,代表百分比
         CHANGE_CURRENT_TIME(state,val) {
+            if (val<0) {
+                val = 0;
+            }
+            if(val > 100 ){
+                val =100;
+            }
             state.player.setCurrentTime(val);
         },
         // 播放模式,mod为将要修改的模式

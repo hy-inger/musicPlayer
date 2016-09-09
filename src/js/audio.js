@@ -131,7 +131,11 @@ class MyAudio {
     }
     // 设置当前播放时间,0-100,代表百分比
     setCurrentTime(val){
-        this.audio.currentTime = this.audio.duration*val/100;
+        try {
+            this.audio.currentTime = this.audio.duration*val/100;
+        }catch(e){
+            console.log("切换")
+        }
         return this;
     }
     /**
