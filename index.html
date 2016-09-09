@@ -55,26 +55,35 @@
             <div id='tool-bar' class="player-control-bar">
                 <div id="song-info">
                     <img src="http://musicdata.baidu.com/data2/pic/88653173/88653173.jpg"  class="music-icon">
-                    <p class="song-name">陪你度过忙长岁月</p>
-                    <p class="singer-name">dsfsd</p>
+                    <div class="detail-info">
+                        <p class="song-name">陪你度过忙长岁月</p>
+                        <p class="singer-name">dsfsd</p>
+                    </div> 
                 </div>
-                <button class="prev-btn icon-previous" type="button" name="prev" changebtn action-type="prev"></button>
-                <button class="play-btn icon-play" type="button" name="play" data-status='play'></button>
-                <button class="next-btn icon-next" type="button" name="next" changebtn action-type="next"></button>
-                
-                <div id="song-range" ></div>
-                <div id="time-display">
-                    <span id="current-time">00:00</span>/
-                    <span id="duration">00:00</span>
+                <div class="btn-group">
+                    <button class="prev-btn icon-previous" type="button" name="prev" changebtn action-type="prev"></button>
+                    <button class="play-btn icon-play" type="button" name="play" data-status='play'></button>
+                    <button class="next-btn icon-next" type="button" name="next" changebtn action-type="next"></button>   
                 </div>
-                <span id="vol-icon" class="icon-volume-high"></span>
-                <div id="vol-range"></div>
+
+                <div id="progress">
+                    <div id="song-range" ></div>
+                    <div id="time-display">
+                        <span id="current-time">00:00</span>/
+                        <span id="duration">00:00</span>
+                    </div>
+                </div>
+                <div id="voice">
+                    <span id="vol-icon" class="icon-volume-high"></span>
+                    <div id="vol-range"></div>
+                </div>   
+                    
                 <div id="loop-ctrl" class="icon-loop1" data-loop="1" >
                     <span id="loop-mod">列表循环</span>
                 </div>
                 <ul id="song-list" style="display: none;" class="song-list unstyle"></ul>
-                <button style=" margin-left: 3%; font-size: 24px;" class="list-show icon-menu-off" title="播放列表" type="button"></button>
-                <button style="display: none; margin-left: 3%; font-size: 24px" class="list-hide icon-menu-on" title="播放列表" type="button"></button>
+                <button  class="list-show icon-menu-off" title="播放列表" type="button"></button>
+                <button style="display: none;" class="list-hide icon-menu-on" title="播放列表" type="button"></button>
                 
             </div>
     <!-- <script type="text/javascript" src="./main.js"></script> -->

@@ -30,7 +30,7 @@ window.player = Store.state.player;  // 仅提供给控制台查看对象
 Dispatch('SET_CONFIG',{
     ended:playMusic
 });
-Dispatch("SEARCH", "东篱", function(musicList) {
+Dispatch("SEARCH", "陈奕迅", function(musicList) {
     // 创建搜索列表
     createSearchList(musicList);
 });
@@ -222,11 +222,15 @@ function playMusic(music){
     $q('.music-icon')[0].src = music.info.songPicRadio;
     $q('.music-icon').on('load', function(){
         $q('#dynamic-bg').css('background', 'url('+music.info.songPicRadio+') 50% 50% / cover no-repeat');
-        
+    }).on('error', function(){
+        $q('.music-icon')[0].src = './static/img/logo.png';
     });
     setTimeout(function () {
          $q('#cover-img')[0].src = music.info.songPicRadio;
     }, 1250);
+    $q('#cover-img').on('error', function(){
+        this.src = './static/img/logo.png';
+    });
     $q('.song-list li').removeClass('active');
     $q(music.dom).addClass('active');
     var songId = music.info.songId;
