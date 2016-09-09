@@ -26,14 +26,20 @@ window.player = Store.state.player;  // 仅提供给控制台查看对象
     doc.addEventListener('DOMContentLoaded', remcalc, false);
 })(document, window);
 
-
-Dispatch('SET_CONFIG',{
-    ended:playMusic
-});
-Dispatch("SEARCH", "陈奕迅", function(musicList) {
-    // 创建搜索列表
-    createSearchList(musicList);
-});
+// 初始化读取localstroage的数据.加载播放列表以及播放歌曲
+(function(){
+    let musicList = JSON.parse(window.localStorage.getItem("musicList"))||[];
+    const index =  window.localStorage.getItem("index");
+    const mod =  window.localStorage.getItem("mod");
+    musicList.forEach((music)=>{
+        createMusicDom(music);
+    });
+    Dispatch('INIT',musicList,index,{
+        playMod:mod,
+        ended:playMusic
+    });
+    Dispatch("LOAD_MUSIC",Number.parseInt(index),playMusic);
+})();
 $q("button[name='play']").on('click', function(event) {
     event.preventDefault();
     // 分发改变当前播放状态事件
@@ -146,41 +152,47 @@ $q("#circle").on('animationend', function(){
     $q(this).removeClass('fly-out').addClass('circle-rotate').data('isout', '');
 }); 
 
+$q(".first-th").on('click', function(){
+    $q(".search-result").addClass('hide');
+});
+
+$q("#search-input").on('focus', function(){
+    $q(".search-result").removeClass('hide');
+});
+
 
 
 
 // 根据获取的音乐数据构造音乐列表
 function createSearchList(musicList) {
-    if (typeof musicList !== 'undefined' && musicList.length >0 ) {
-        // 刷新当前搜索列表数据
-        Dispatch("REFRESH_SEARCH_LIST", musicList);
-        // 构造音乐列表,此处应提供回调函数给main.js调用.并且操作相应的dom元素
-        var tbody = "";
-        musicList.forEach((music, index) => {
-            tbody += `<tr data-index="${index}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${Math.floor(music.time/60)}:${Math.floor(music.time%60)}</td></tr>`;
+    // 刷新当前搜索列表数据
+    Dispatch("REFRESH_SEARCH_LIST", musicList);
+    // 构造音乐列表,此处应提供回调函数给main.js调用.并且操作相应的dom元素
+    var tbody = "";
+    musicList.forEach((music, index) => {
+        var idx = index++;
+        tbody += `<tr data-index="${idx}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${Math.floor(music.time/60)}:${Math.floor(music.time%60)}</td></tr>`;
+    });
+    $q(".search-list tbody").html(tbody);
+    // 搜索音乐列表双击播放事件
+    $q(".search-list tbody tr").on('dblclick', function(event) {
+        var index = $q(this).data("index");
+        // 从搜索列表中添加音乐到播放列表并播放
+        Dispatch("ADD_MUSIC", index, function(music) {
+            // 判断音乐是否已存在dom，存在dom说明是已经存在于播放列表当中，不存在dom则为新增歌曲
+            if(!music.dom){
+                // 添加并绑定dom
+                createMusicDom(music);
+            }
+            // 改变当前播放列表的active状态
+            Dispatch('LOAD_MUSIC',music,playMusic);
         });
-        $q(".search-list tbody").html(tbody);
-        // 搜索音乐列表双击播放事件
-        $q(".search-list tbody tr").on('dblclick', function(event) {
-            var index = $q(this).data("index");
-            // 从搜索列表中添加音乐到播放列表并播放
-            Dispatch("ADD_MUSIC", index, function(music) {
-                // 判断音乐是否已存在dom，存在dom说明是已经存在于播放列表当中，不存在dom则为新增歌曲
-                if(!music.dom){
-                    // 添加并绑定dom
-                    createMusicDom(music);
-                }
-                // 改变当前播放列表的active状态
-                Dispatch('LOAD_MUSIC',music,playMusic);
-            });
-        }).on("click", function() {
-            $q(".search-list tbody tr").removeClass('active');
-            // 从搜索列表单击只能触发选中状态
-            $q(this).addClass('active');
-        });
-    }else {
-        alert("暂无相关关键词信息");
-    }
+    }).on("click", function() {
+        $q(".search-list tbody tr").removeClass('active');
+        // 从搜索列表单击只能触发选中状态
+        $q(this).addClass('active');
+    });
+     $q(".search-result").removeClass('hide');
 }
 
 
@@ -188,7 +200,7 @@ function createSearchList(musicList) {
 function createMusicDom(music){
     var index = $q(".song-list li").length+1;
     var time = timeFilter(music.info.time);
-    var li = `<li><span class="index">${index}</span><span class="song-name">${music.info.songName}</span><span class="singer-name">${music.info.artistName}</span><span class="time">${time}</span><i class="rm "></i></li>`;
+    var li = `<li><span class="index">${index}</span><span class="song-name">${music.info.songName}</span><span class="singer-name">${music.info.artistName}</span><span class="time">${time}</span><span class="rm icon-cross"></span></li>`;
     var dom = $q.parseHTML(li);
     music.dom = dom;
     $q(dom).on('click', function(event) {
