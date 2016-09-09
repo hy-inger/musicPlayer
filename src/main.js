@@ -187,6 +187,7 @@ function createSearchList(musicList) {
     Dispatch("REFRESH_SEARCH_LIST", musicList);
     // 构造音乐列表,此处应提供回调函数给main.js调用.并且操作相应的dom元素
     var tbody = "";
+    console.log(musicList);
     musicList.forEach((music, index) => {
         var idx = index++;
         tbody += `<tr data-index="${idx}"><td>${index}</td><td>${music.songName}</td><td>${music.artistName}</td><td>${music.albumName}</td><td>${timeFilter(music.time)}</td></tr>`;
