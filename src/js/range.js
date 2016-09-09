@@ -1,4 +1,4 @@
-require("expose?$q!./query.js");
+// require("expose?$q!./query.js");
 
 
 

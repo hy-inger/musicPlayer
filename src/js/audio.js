@@ -142,14 +142,14 @@ class MyAudio {
             return this;
         }
         this.audio.src = music.info.songLink;
-        // console.log(music.info.songName);
+        this.index = this.musicList.indexOf(music);
         this.play();
         return this;
     }
     // 下一首音乐,暴露回调接口进行下一步操作,返回this,可进行链式调用
     next(){
         var playMod = this.cfg.playMod;
-        if (playMod === "order" || playMod === 'list') {
+        if (playMod !=="range") {
             // 顺序播放
             this.index++;
             if (this.index >= this.musicList.length) {
@@ -166,7 +166,7 @@ class MyAudio {
     // 上一首音乐,暴露回调接口进行下一步操作,返回this,可进行链式调用
     prev(){
          var playMod = this.cfg.playMod;
-        if (playMod === "order" || playMod === 'list') {
+        if (playMod !=="range") {
             // 顺序播放
             this.index--;
             if (this.index < 0) {

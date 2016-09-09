@@ -4,7 +4,7 @@
  * 不允许直接对播放器对象进行操作
  */
 var { MyAudio, Music } = require("./audio.js");
-require("expose?$q!./query.js");
+// require("expose?$q!./query.js");
 // 创建一首音乐并且将音乐与其dom关联.
 
 var Store = {
@@ -15,7 +15,9 @@ var Store = {
     },
     // 相应的操作事件
     mou: {
-        SET_CONFIG(state,cfg){
+        INIT(state,musicList=[],index=0,cfg={}){
+            state.player.musicList = musicList;
+            state.player.idnex = index;
             Object.assign(state.player.cfg,cfg);
         },
         // 播放
@@ -31,8 +33,9 @@ var Store = {
             // 向后台拉取搜索到的数据
             fetch("http://localhost:4000/search?query=" + query, {
                 mod: "cors"
-            }).then(res => res.json()).then(data => {
-                callback(data.data.songList);
+            }).then(res => res.json()).then(songList => {
+                console.log(songList);
+                callback(songList);
             });
         },
         // 刷新搜索列表,即将搜索的歌曲重新放入列表当中
@@ -58,9 +61,13 @@ var Store = {
                 music = state.player.next();
             } else if (music === 'prev') {
                 music = state.player.prev();
-            } else {
+            }else {
+                if(typeof music === 'number') {
+                                music = state.player.musicList[music];
+                }
                 state.player.load(music);
             }
+            this._refresh_localStroage(state);
             callback && callback(music);
         },
 
@@ -91,6 +98,7 @@ var Store = {
                 player.index = index;
                 music = player.musicList[index];
             }
+            this._refresh_localStroage(state);
             // 执行回调
             callback(music);
         },
@@ -120,8 +128,8 @@ var Store = {
                 state.player.audio.loop = true;
             } else {
                 state.player.audio.loop = false;
-                state.player.cfg.playMod = mod;
             }
+            state.player.cfg.playMod = mod;
         },
         // 获取当前播放列表
         // 返回 Array.
@@ -147,6 +155,7 @@ var Store = {
             if (typeof fnc === 'function') {
                 fnc(...remove, player.musicList);
             }
+            this._refresh_localStroage(state);
         },
         /**
          * 获取歌曲歌词接口
@@ -167,6 +176,12 @@ var Store = {
                     // data.title  : 歌名
                     callback(data);
                 });
+        },
+        _refresh_localStroage(state){
+            var player = state.player;
+            window.localStorage.setItem("musicList",JSON.stringify(player.musicList));
+            window.localStorage.setItem("index",player.index);
+            window.localStorage.setItem("mod",player.cfg.playMod);
         }
     }
 };

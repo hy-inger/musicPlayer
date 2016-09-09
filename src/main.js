@@ -1,4 +1,5 @@
 require("./sass/style.scss");
+require("expose?$q!./js/query.js");
 // require("../index.html");
 var Range = require("./js/range.js");
 var Lyric = require("./js/lrc.js");
@@ -25,14 +26,20 @@ window.player = Store.state.player;  // 仅提供给控制台查看对象
     doc.addEventListener('DOMContentLoaded', remcalc, false);
 })(document, window);
 
-
-Dispatch('SET_CONFIG',{
-    ended:playMusic
-});
-Dispatch("SEARCH", "陈奕迅", function(musicList) {
-    // 创建搜索列表
-    createSearchList(musicList);
-});
+// 初始化读取localstroage的数据.加载播放列表以及播放歌曲
+(function(){
+    let musicList = JSON.parse(window.localStorage.getItem("musicList"))||[];
+    const index =  window.localStorage.getItem("index");
+    const mod =  window.localStorage.getItem("mod");
+    musicList.forEach((music)=>{
+        createMusicDom(music);
+    });
+    Dispatch('INIT',musicList,index,{
+        playMod:mod,
+        ended:playMusic
+    });
+    Dispatch("LOAD_MUSIC",Number.parseInt(index),playMusic);
+})();
 $q("button[name='play']").on('click', function(event) {
     event.preventDefault();
     // 分发改变当前播放状态事件
@@ -139,7 +146,7 @@ $q(".list-hide").on('click', function(){
     $q(this).css('display', 'none');
     $q("#song-list").css('display', 'none');
     $q(".list-show").css('display', 'inline-block');
-})
+});
 
 $q("#circle").on('animationend', function(){
     $q(this).removeClass('fly-out').addClass('circle-rotate').data('isout', '');
@@ -253,8 +260,6 @@ function playMusic(music){
     $q('#cover-img').on('error', function(){
         this.src = './static/img/logo.png';
     });
-    
-    
     $q('.song-list li').removeClass('active');
     $q(music.dom).addClass('active');
     var songId = music.info.songId;
